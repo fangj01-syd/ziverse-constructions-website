@@ -222,15 +222,15 @@ button { font-family: inherit; }
 .hero-row {
   display: flex;
   align-items: center;
-  gap: 64px;
-  padding-block: 88px;
+  gap: 72px;
+  padding-block: 100px;
   position: relative;
   z-index: 1;
 }
 .hero-copy { flex: 1 1 0; display: flex; flex-direction: column; gap: 24px; }
 .hero-copy h1 { font-size: 52px; line-height: 1.08; font-weight: 900; letter-spacing: -0.01em; }
 .hero-copy .lede { font-size: 18px; line-height: 1.6; color: var(--text-invert-muted); max-width: 520px; }
-.hero-media { flex: 1 1 0; aspect-ratio: 4 / 3; }
+.hero-media { flex: 1.15 1 0; aspect-ratio: 1 / 1; }
 
 /* Blueprint grid texture — used once, behind the hero only */
 .hero::before {
@@ -289,6 +289,20 @@ button { font-family: inherit; }
 }
 .img-placeholder span { color: var(--muted-on-tint); font-size: 13px; line-height: 1.5; }
 .ratio-4-3 { aspect-ratio: 4 / 3; }
+
+/* Gallery: bigger, more spacious cards with a subtle hover zoom (activates
+   automatically once the placeholder divs are swapped for real <img> tags) */
+#gallery .grid-3 { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 40px; }
+#gallery .ratio-4-3 { aspect-ratio: 3 / 2; }
+#gallery .img-placeholder { overflow: hidden; }
+#gallery .img-placeholder img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.5s ease;
+}
+#gallery .img-placeholder:hover img { transform: scale(1.05); }
 .ratio-3-4 { aspect-ratio: 3 / 4; }
 .section-dark .img-placeholder { background: var(--bg-dark-2); border-color: var(--line-dark); }
 .section-dark .img-placeholder span { color: #8B948F; }
@@ -415,7 +429,7 @@ button { font-family: inherit; }
   .nav-toggle { display: flex; }
   .header-actions .phone-text { display: none; }
 
-  .grid-3, .grid-4 { grid-template-columns: 1fr; }
+  .grid-3, .grid-4, #gallery .grid-3 { grid-template-columns: 1fr; }
   .trust-row { justify-content: flex-start; }
   .section-head-row { align-items: flex-start; }
 }
