@@ -472,6 +472,7 @@ button { font-family: inherit; }
   .grid-3, .grid-4, #gallery .grid-3 { grid-template-columns: 1fr; }
   .trust-row { justify-content: flex-start; }
   .section-head-row { align-items: flex-start; }
+  .field-row { flex-direction: column; gap: 18px; }
 }
 
   </style>
@@ -751,15 +752,28 @@ button { font-family: inherit; }
             <label for="f-email">Email</label>
             <input id="f-email" name="email" type="email" placeholder="you@email.com" required>
           </div>
-          <div class="field">
-            <label for="f-type">Project type</label>
-            <select id="f-type" name="project_type">
-              <option>New home</option>
-              <option>Renovation / extension</option>
-              <option>Deck / outdoor</option>
-              <option>Bathroom / kitchen</option>
-              <option>Other</option>
-            </select>
+          <div class="field-row">
+            <div class="field">
+              <label for="f-type">Project type</label>
+              <select id="f-type" name="project_type">
+                <option>New home</option>
+                <option>Renovation / extension</option>
+                <option>Deck / outdoor</option>
+                <option>Bathroom / kitchen</option>
+                <option>Other</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="f-budget">Estimated budget (optional)</label>
+              <select id="f-budget" name="budget_range">
+                <option value="">Prefer not to say</option>
+                <option>Under $50,000</option>
+                <option>$50,000 – $150,000</option>
+                <option>$150,000 – $300,000</option>
+                <option>$300,000+</option>
+                <option>Not sure yet</option>
+              </select>
+            </div>
           </div>
           <div class="field">
             <label for="f-msg">Tell us about the job</label>
