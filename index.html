@@ -309,6 +309,46 @@ button { font-family: inherit; }
 .hero-media { border-radius: 4px; border: 1px dashed #4A5457; background: var(--bg-dark-2); }
 .hero-media span { color: #8B948F; padding: 24px; }
 
+/* Real photo state: swap the dashed placeholder look for a lifted, cinematic
+   frame — a deep drop shadow off the dark hero background and a soft inset
+   vignette at the base for depth. Holds a slideshow of stacked <img.hero-slide>
+   layers that crossfade with a slow Ken-Burns push-in (see script.js, "Hero
+   slideshow") so the hero reads as considered rather than static. */
+.hero-media.has-photo {
+  border-style: solid;
+  border-color: transparent;
+  padding: 0;
+  overflow: hidden;
+  position: relative;
+  box-shadow:
+    inset 0 -130px 110px -70px rgba(10, 12, 13, 0.55),
+    0 50px 90px -28px rgba(0, 0, 0, 0.6);
+}
+.hero-media.has-photo img.hero-slide {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  opacity: 0;
+  transform: scale(1);
+  transition: opacity 1.8s ease;
+  z-index: 0;
+}
+.hero-media.has-photo img.hero-slide.is-active {
+  opacity: 1;
+  z-index: 1;
+  animation: hero-ken-burns 7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+@keyframes hero-ken-burns {
+  from { transform: scale(1); }
+  to { transform: scale(1.08); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-media.has-photo img.hero-slide.is-active { animation: none; }
+}
+
 /* Registration-mark corners on photo placeholders — a drafting-table detail */
 .plate { position: relative; }
 .plate::before, .plate::after {
@@ -482,9 +522,16 @@ button { font-family: inherit; }
             <a href="#gallery" class="btn btn-ghost-invert">View Our Work</a>
           </div>
         </div>
-        <div class="hero-media img-placeholder plate plate-dark">
-          <!-- Replace with: <img src="images/hero.jpg" alt="Completed [project type] by Ziverse Constructions in [suburb]"> -->
-          <span>[ADD HERO PHOTO — a finished project, wide shot, natural light. Recommended: 1200×900px, .jpg]</span>
+        <div class="hero-media img-placeholder has-photo plate plate-dark" role="img" aria-label="Rotating photos of homes in the style Ziverse Constructions builds — temporary placeholder photos, to be replaced with real completed projects">
+          <!-- TEMPORARY stock photo slideshow — replace each src below with a real
+               Ziverse Constructions project photo as soon as available (e.g.
+               images/hero-1.jpg, hero-2.jpg, ...). Add or remove <img class="hero-slide">
+               elements to change the number of slides — script.js picks up however
+               many are present. Slideshow logic: script.js, "Hero slideshow". -->
+          <img class="hero-slide is-active" src="https://images.unsplash.com/photo-1721815693498-cc28507c0ba2?fm=jpg&amp;q=80&amp;w=1800&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0" alt="" loading="eager">
+          <img class="hero-slide" src="https://images.unsplash.com/photo-1633354747567-e0682586f082?fm=jpg&amp;q=80&amp;w=1800&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0" alt="" loading="lazy">
+          <img class="hero-slide" src="https://images.unsplash.com/photo-1580587771525-78b9dba3b914?fm=jpg&amp;q=80&amp;w=1800&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0" alt="" loading="lazy">
+          <img class="hero-slide" src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?fm=jpg&amp;q=80&amp;w=1800&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0" alt="" loading="lazy">
         </div>
       </div>
     </section>
@@ -768,6 +815,50 @@ button { font-family: inherit; }
         toggle.setAttribute('aria-expanded', 'false');
       });
     });
+  }
+
+  // --- Hero slideshow ---
+  // Crossfades between however many <img class="hero-slide"> elements are
+  // present in .hero-media — add/remove <img> tags in index.html and this
+  // picks it up automatically. Pauses on hover/focus and is skipped entirely
+  // for users who've asked for reduced motion.
+  var heroSlides = document.querySelectorAll('.hero-media .hero-slide');
+  if (heroSlides.length > 1) {
+    var prefersReducedMotion = window.matchMedia &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if (!prefersReducedMotion) {
+      var heroWrap = heroSlides[0].closest('.hero-media');
+      var currentSlide = 0;
+      var slideTimer = null;
+
+      function advanceSlide() {
+        var next = (currentSlide + 1) % heroSlides.length;
+        heroSlides[currentSlide].classList.remove('is-active');
+        // Force the browser to see the removal before the next slide's
+        // Ken-Burns animation is (re)applied, so it restarts from scale(1).
+        void heroSlides[next].offsetWidth;
+        heroSlides[next].classList.add('is-active');
+        currentSlide = next;
+      }
+
+      function startSlideshow() {
+        if (!slideTimer) slideTimer = setInterval(advanceSlide, 6000);
+      }
+      function stopSlideshow() {
+        clearInterval(slideTimer);
+        slideTimer = null;
+      }
+
+      startSlideshow();
+
+      if (heroWrap) {
+        heroWrap.addEventListener('mouseenter', stopSlideshow);
+        heroWrap.addEventListener('mouseleave', startSlideshow);
+        heroWrap.addEventListener('focusin', stopSlideshow);
+        heroWrap.addEventListener('focusout', startSlideshow);
+      }
+    }
   }
 
   // --- Footer year ---
