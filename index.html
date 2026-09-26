@@ -306,6 +306,28 @@ button { font-family: inherit; }
 .ratio-3-4 { aspect-ratio: 3 / 4; }
 .section-dark .img-placeholder { background: var(--bg-dark-2); border-color: var(--line-dark); }
 .section-dark .img-placeholder span { color: #8B948F; }
+
+/* Real photo state (gallery + about): once a placeholder holds a real
+   <img>, drop the dashed border/tint/padding for a clean framed photo —
+   the "plate" corner brackets then read as a deliberate frame rather than
+   a placeholder marker. */
+.img-placeholder.has-photo {
+  border-style: solid;
+  border-color: transparent;
+  background: transparent;
+  padding: 0;
+  overflow: hidden;
+}
+.img-placeholder.has-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.section-dark .img-placeholder.has-photo {
+  background: transparent;
+  border-color: transparent;
+}
 .hero-media { border-radius: 4px; border: 1px dashed #4A5457; background: var(--bg-dark-2); }
 .hero-media span { color: #8B948F; padding: 24px; }
 
@@ -378,6 +400,89 @@ button { font-family: inherit; }
 .stars { color: var(--accent-ink); letter-spacing: 2px; }
 .testimonial blockquote { margin: 0; font-size: 15px; line-height: 1.7; color: #3A3F38; }
 .testimonial figcaption { font-weight: 700; font-size: 14px; }
+.testimonial.is-sample { border-style: dashed; border-color: var(--line-tint); }
+.sample-tag {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--accent-ink);
+  background: var(--bg-tint);
+  border-radius: 3px;
+  padding: 4px 8px;
+}
+
+/* --- Leave-a-review: CTA under testimonials + its own view --- */
+[hidden] { display: none !important; }
+.review-cta {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-top: 48px;
+  text-align: center;
+}
+.review-cta p { color: var(--muted); font-weight: 600; }
+.review-page { padding-block: 56px 96px; min-height: 70vh; }
+.review-page .review-row { margin-top: 32px; padding-top: 0; border-top: 0; }
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+  font-size: 15px;
+  color: var(--text);
+  padding: 10px 0;
+}
+.back-link:hover { color: var(--accent-ink); }
+
+/* --- Review form (under testimonials) --- */
+.review-row {
+  display: flex;
+  gap: 64px;
+  align-items: flex-start;
+  margin-top: 64px;
+  padding-top: 56px;
+  border-top: 1px solid var(--line);
+}
+.review-copy { flex: 1 1 0; display: flex; flex-direction: column; gap: 16px; align-items: flex-start; }
+.review-copy h3 { font-size: 26px; font-weight: 900; line-height: 1.2; }
+.review-copy p { color: var(--muted); line-height: 1.6; max-width: 420px; }
+.review-form {
+  flex: 1.2 1 0;
+  background: var(--card-bg);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+.btn-ghost { border-color: var(--text); color: var(--text); }
+.btn-ghost:hover { background: var(--text); color: var(--bg); }
+.rating-field { border: 0; margin: 0; padding: 0; min-width: 0; }
+.rating-field legend { font-weight: 600; font-size: 14px; padding: 0; margin-bottom: 6px; }
+/* Stars are in DOM order 5..1 and displayed reversed, so "checked ~ label"
+   fills the chosen star and every star to its left. */
+.rating { display: inline-flex; flex-direction: row-reverse; gap: 2px; }
+.rating input { position: absolute; opacity: 0; width: 1px; height: 1px; pointer-events: none; }
+.rating label { font-size: 32px; line-height: 1; color: var(--line-tint); cursor: pointer; padding: 2px; transition: color .12s ease; }
+.rating label:hover,
+.rating label:hover ~ label,
+.rating input:checked ~ label { color: var(--accent); }
+.rating input:focus-visible + label { outline: 3px solid var(--accent-ink); outline-offset: 2px; border-radius: 2px; }
+.consent { display: flex; gap: 10px; align-items: flex-start; font-size: 14px; line-height: 1.5; color: var(--muted); cursor: pointer; }
+.consent input { margin-top: 3px; width: 18px; height: 18px; accent-color: var(--accent-ink); flex-shrink: 0; }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+@media (max-width: 960px) {
+  .review-row { flex-direction: column; align-items: stretch; gap: 32px; }
+}
+@media (max-width: 720px) {
+  .review-row { margin-top: 48px; padding-top: 40px; }
+  .review-form { padding: 24px; }
+}
 
 /* --- Quote / contact --- */
 .quote-row { display: flex; gap: 64px; }
@@ -475,7 +580,103 @@ button { font-family: inherit; }
   .field-row { flex-direction: column; gap: 18px; }
 }
 
-  </style>
+/* =========================================================
+   Device tuning: phones, iPad, MacBook
+   (kept last so it refines the responsive rules above)
+   ========================================================= */
+html { scroll-padding-top: 84px; }               /* anchors land below the sticky header */
+.site-header { top: env(safe-area-inset-top, 0px); }
+.container {
+  padding-left: max(24px, env(safe-area-inset-left, 0px));
+  padding-right: max(24px, env(safe-area-inset-right, 0px));
+}
+.logo { white-space: nowrap; }
+.field input, .field select, .field textarea { font-size: 16px; } /* 16px stops iPhone zoom-on-focus */
+.text-link { display: inline-block; padding-block: 10px; }
+.contact-list a { padding-block: 8px; }
+
+/* Touch screens: no hover-zoom that sticks after a tap */
+@media (hover: none) {
+  #gallery .img-placeholder:hover img { transform: none; }
+}
+
+/* Big MacBook / desktop screens: use a little more of the width */
+@media (min-width: 1440px) {
+  .container { max-width: 1280px; }
+  .hero-copy h1 { font-size: 58px; }
+}
+
+/* iPad landscape & 13" laptops: phone number collapses to its icon so the nav fits */
+@media (max-width: 1100px) {
+  .header-actions .phone-text { display: none; }
+  .main-nav { gap: 24px; }
+}
+
+/* iPad portrait and below: hamburger menu, stacked hero with the photo visible */
+@media (max-width: 960px) {
+  .main-nav {
+    position: absolute;
+    top: 84px;
+    left: 0;
+    right: 0;
+    background: var(--bg);
+    border-bottom: 1px solid var(--line);
+    box-shadow: 0 18px 30px -18px rgba(0, 0, 0, 0.35);
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    padding: 8px 24px 16px;
+    display: none;
+  }
+  .main-nav.is-open { display: flex; }
+  .main-nav a { padding: 14px 0; border-bottom: 1px solid var(--line); }
+  .main-nav a:last-child { border-bottom: 0; }
+  .nav-toggle { display: flex; }
+
+  .hero-row { gap: 48px; padding-block: 72px; }
+  .hero-media { flex: none; width: 100%; aspect-ratio: 4 / 3; }
+  .about-photo.ratio-3-4 { flex: none; width: 100%; aspect-ratio: 4 / 3; }
+}
+
+/* Phones */
+@media (max-width: 720px) {
+  html { scroll-padding-top: 64px; }
+  .header-row { height: 64px; }
+  .main-nav { top: 64px; }
+  .logo { font-size: 18px; }
+  .logo svg { width: 26px; height: 26px; }
+
+  .section { padding-block: 64px; }
+  .hero-row { gap: 36px; padding-block: 48px 56px; }
+  .hero-copy h1 { font-size: 36px; }
+  .hero-copy .lede { font-size: 17px; }
+  .btn-row .btn { flex: 1 1 200px; }
+  .section-title-loose { font-size: 28px; margin-bottom: 32px; }
+  .about-copy h2, .quote-copy h2 { font-size: 26px; }
+  .quote-form, .review-form { padding: 24px; }
+  .review-page { padding-block: 32px 64px; }
+  .footer-top { flex-direction: column; gap: 24px; }
+  .footer-nav { flex-wrap: wrap; gap: 4px 24px; }
+  .footer-nav a { display: inline-block; padding-block: 10px; }
+}
+
+/* Small phones (iPhone SE / mini) */
+@media (max-width: 400px) {
+  .container {
+    padding-left: max(16px, env(safe-area-inset-left, 0px));
+    padding-right: max(16px, env(safe-area-inset-right, 0px));
+  }
+  .main-nav { padding-inline: 16px; }
+  .hero-copy h1 { font-size: 32px; }
+}
+
+/* Phones held sideways: keep the hero from becoming a tall scroll */
+@media (max-height: 500px) and (orientation: landscape) {
+  .hero-row { padding-block: 40px; }
+  .hero-media { aspect-ratio: 16 / 9; }
+}
+
+</style>
 </head>
 <body>
 
@@ -529,10 +730,10 @@ button { font-family: inherit; }
                images/hero-1.jpg, hero-2.jpg, ...). Add or remove <img class="hero-slide">
                elements to change the number of slides — script.js picks up however
                many are present. Slideshow logic: script.js, "Hero slideshow". -->
-          <img class="hero-slide is-active" src="https://images.unsplash.com/photo-1721815693498-cc28507c0ba2?fm=jpg&amp;q=80&amp;w=1800&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0" alt="" loading="eager">
-          <img class="hero-slide" src="https://images.unsplash.com/photo-1633354747567-e0682586f082?fm=jpg&amp;q=80&amp;w=1800&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0" alt="" loading="lazy">
-          <img class="hero-slide" src="https://images.unsplash.com/photo-1580587771525-78b9dba3b914?fm=jpg&amp;q=80&amp;w=1800&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0" alt="" loading="lazy">
-          <img class="hero-slide" src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?fm=jpg&amp;q=80&amp;w=1800&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0" alt="" loading="lazy">
+          <img class="hero-slide is-active" src="https://images.unsplash.com/photo-1721815693498-cc28507c0ba2?fm=jpg&amp;q=80&amp;w=1800&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0" srcset="https://images.unsplash.com/photo-1721815693498-cc28507c0ba2?fm=jpg&amp;q=80&amp;w=800&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0 800w, https://images.unsplash.com/photo-1721815693498-cc28507c0ba2?fm=jpg&amp;q=80&amp;w=1200&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0 1200w, https://images.unsplash.com/photo-1721815693498-cc28507c0ba2?fm=jpg&amp;q=80&amp;w=1800&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0 1800w" sizes="(max-width: 960px) 100vw, 55vw" alt="" loading="eager">
+          <img class="hero-slide" src="https://images.unsplash.com/photo-1633354747567-e0682586f082?fm=jpg&amp;q=80&amp;w=1800&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0" srcset="https://images.unsplash.com/photo-1633354747567-e0682586f082?fm=jpg&amp;q=80&amp;w=800&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0 800w, https://images.unsplash.com/photo-1633354747567-e0682586f082?fm=jpg&amp;q=80&amp;w=1200&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0 1200w, https://images.unsplash.com/photo-1633354747567-e0682586f082?fm=jpg&amp;q=80&amp;w=1800&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0 1800w" sizes="(max-width: 960px) 100vw, 55vw" alt="" loading="lazy">
+          <img class="hero-slide" src="https://images.unsplash.com/photo-1580587771525-78b9dba3b914?fm=jpg&amp;q=80&amp;w=1800&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0" srcset="https://images.unsplash.com/photo-1580587771525-78b9dba3b914?fm=jpg&amp;q=80&amp;w=800&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0 800w, https://images.unsplash.com/photo-1580587771525-78b9dba3b914?fm=jpg&amp;q=80&amp;w=1200&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0 1200w, https://images.unsplash.com/photo-1580587771525-78b9dba3b914?fm=jpg&amp;q=80&amp;w=1800&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0 1800w" sizes="(max-width: 960px) 100vw, 55vw" alt="" loading="lazy">
+          <img class="hero-slide" src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?fm=jpg&amp;q=80&amp;w=1800&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0" srcset="https://images.unsplash.com/photo-1613490493576-7fde63acd811?fm=jpg&amp;q=80&amp;w=800&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0 800w, https://images.unsplash.com/photo-1613490493576-7fde63acd811?fm=jpg&amp;q=80&amp;w=1200&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0 1200w, https://images.unsplash.com/photo-1613490493576-7fde63acd811?fm=jpg&amp;q=80&amp;w=1800&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0 1800w" sizes="(max-width: 960px) 100vw, 55vw" alt="" loading="lazy">
         </div>
       </div>
     </section>
@@ -632,29 +833,23 @@ button { font-family: inherit; }
           <a href="#quote" class="text-link">Start your project &#8594;</a>
         </div>
         <div class="grid grid-3">
-          <div class="img-placeholder ratio-4-3 plate">
-            <!-- <img src="images/project-1.jpg" alt="Kitchen renovation, before and after"> -->
-            <span>[Photo — kitchen renovation, before/after]</span>
+          <div class="img-placeholder ratio-4-3 plate has-photo">
+            <img src="https://images.unsplash.com/photo-1778936317494-246b9262bbaf?fm=jpg&amp;q=80&amp;w=1200&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0" srcset="https://images.unsplash.com/photo-1778936317494-246b9262bbaf?fm=jpg&amp;q=80&amp;w=600&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0 600w, https://images.unsplash.com/photo-1778936317494-246b9262bbaf?fm=jpg&amp;q=80&amp;w=1200&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0 1200w" sizes="(max-width: 720px) 100vw, 50vw" alt="Kitchen renovation with granite benchtops" loading="lazy">
           </div>
-          <div class="img-placeholder ratio-4-3 plate">
-            <!-- <img src="images/project-2.jpg" alt="Second storey home addition"> -->
-            <span>[Photo — second-storey addition]</span>
+          <div class="img-placeholder ratio-4-3 plate has-photo">
+            <img src="https://images.unsplash.com/photo-1575517111478-7f6afd0973db?fm=jpg&amp;q=80&amp;w=1200&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0" srcset="https://images.unsplash.com/photo-1575517111478-7f6afd0973db?fm=jpg&amp;q=80&amp;w=600&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0 600w, https://images.unsplash.com/photo-1575517111478-7f6afd0973db?fm=jpg&amp;q=80&amp;w=1200&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0 1200w" sizes="(max-width: 720px) 100vw, 50vw" alt="Timber deck and outdoor living area opening onto the home at dusk" loading="lazy">
           </div>
-          <div class="img-placeholder ratio-4-3 plate">
-            <!-- <img src="images/project-3.jpg" alt="Timber deck and pergola"> -->
-            <span>[Photo — outdoor deck &amp; pergola]</span>
+          <div class="img-placeholder ratio-4-3 plate has-photo">
+            <img src="https://images.unsplash.com/photo-1755816764831-2803235f0099?fm=jpg&amp;q=80&amp;w=1200&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0" srcset="https://images.unsplash.com/photo-1755816764831-2803235f0099?fm=jpg&amp;q=80&amp;w=600&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0 600w, https://images.unsplash.com/photo-1755816764831-2803235f0099?fm=jpg&amp;q=80&amp;w=1200&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0 1200w" sizes="(max-width: 720px) 100vw, 50vw" alt="Timber-look pergola over an outdoor entertaining area" loading="lazy">
           </div>
-          <div class="img-placeholder ratio-4-3 plate">
-            <!-- <img src="images/project-4.jpg" alt="Bathroom rebuild"> -->
-            <span>[Photo — bathroom rebuild]</span>
+          <div class="img-placeholder ratio-4-3 plate has-photo">
+            <img src="https://images.unsplash.com/photo-1771929662486-f793e08f0f16?fm=jpg&amp;q=80&amp;w=1200&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0" srcset="https://images.unsplash.com/photo-1771929662486-f793e08f0f16?fm=jpg&amp;q=80&amp;w=600&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0 600w, https://images.unsplash.com/photo-1771929662486-f793e08f0f16?fm=jpg&amp;q=80&amp;w=1200&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0 1200w" sizes="(max-width: 720px) 100vw, 50vw" alt="Bathroom rebuild with marble-look tiling and frameless glass shower" loading="lazy">
           </div>
-          <div class="img-placeholder ratio-4-3 plate">
-            <!-- <img src="images/project-5.jpg" alt="Full home extension, exterior"> -->
-            <span>[Photo — full home extension, exterior]</span>
+          <div class="img-placeholder ratio-4-3 plate has-photo">
+            <img src="https://images.unsplash.com/photo-1758448756207-54505680d130?fm=jpg&amp;q=80&amp;w=1200&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0" srcset="https://images.unsplash.com/photo-1758448756207-54505680d130?fm=jpg&amp;q=80&amp;w=600&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0 600w, https://images.unsplash.com/photo-1758448756207-54505680d130?fm=jpg&amp;q=80&amp;w=1200&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0 1200w" sizes="(max-width: 720px) 100vw, 50vw" alt="Full home extension, modern concrete and glass exterior" loading="lazy">
           </div>
-          <div class="img-placeholder ratio-4-3 plate">
-            <!-- <img src="images/project-6.jpg" alt="New home, street view"> -->
-            <span>[Photo — new home, street view]</span>
+          <div class="img-placeholder ratio-4-3 plate has-photo">
+            <img src="https://images.unsplash.com/photo-1591474200742-8e512e6f98f8?fm=jpg&amp;q=80&amp;w=1200&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0" srcset="https://images.unsplash.com/photo-1591474200742-8e512e6f98f8?fm=jpg&amp;q=80&amp;w=600&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0 600w, https://images.unsplash.com/photo-1591474200742-8e512e6f98f8?fm=jpg&amp;q=80&amp;w=1200&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0 1200w" sizes="(max-width: 720px) 100vw, 50vw" alt="Modern two-storey home with large glazing and stone-clad walls" loading="lazy">
           </div>
         </div>
       </div>
@@ -663,9 +858,8 @@ button { font-family: inherit; }
     <!-- ============ ABOUT ============ -->
     <section id="about" class="section section-dark">
       <div class="container about-row">
-        <div class="img-placeholder ratio-3-4 about-photo plate plate-dark">
-          <!-- <img src="images/owner.jpg" alt="[Your Name], owner of Ziverse Constructions, on a job site"> -->
-          <span>[ADD PHOTO — you on a job site]</span>
+        <div class="img-placeholder ratio-3-4 about-photo plate plate-dark has-photo">
+          <img src="https://images.unsplash.com/photo-1587582423116-ec07293f0395?fm=jpg&amp;q=80&amp;w=1200&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0" srcset="https://images.unsplash.com/photo-1587582423116-ec07293f0395?fm=jpg&amp;q=80&amp;w=600&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0 600w, https://images.unsplash.com/photo-1587582423116-ec07293f0395?fm=jpg&amp;q=80&amp;w=1200&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0 1200w" sizes="(max-width: 960px) 100vw, 380px" alt="Builder on a timber-framed job site, placeholder photo" loading="lazy">
         </div>
         <div class="about-copy">
           <p class="eyebrow eyebrow-accent">About Ziverse Constructions</p>
@@ -697,19 +891,29 @@ button { font-family: inherit; }
         <div class="grid grid-3">
           <figure class="card testimonial">
             <div class="stars" aria-hidden="true">★★★★★</div>
-            <blockquote>[Client testimonial — what the project was, how communication was, whether it finished on time and on budget.]</blockquote>
-            <figcaption>[Client Name], [Suburb]</figcaption>
+            <blockquote>Bing built our new deck and we couldn't be happier. He talked us through the design and materials up front, kept us in the loop the whole way, and he and his team left everything neat and tidy at the end of each day. The finish is excellent and it's now our favourite spot at home. Thanks Bing and team!</blockquote>
+            <figcaption>Jacky, Castle Hill</figcaption>
           </figure>
-          <figure class="card testimonial">
+          <!-- Cards marked is-sample show layout only: replace each with a real
+               client's review (with permission) and remove the sample-tag span.
+               Publishing invented reviews is misleading under Australian Consumer Law. -->
+          <figure class="card testimonial is-sample">
+            <span class="sample-tag">Sample layout — replace with a real client review</span>
             <div class="stars" aria-hidden="true">★★★★★</div>
-            <blockquote>[Client testimonial — what made you choose this builder over others, and what the finished result looked like.]</blockquote>
+            <blockquote>We got three quotes and Ziverse's was the only one that was fully itemised, with no vague allowances. Bing explained exactly what we were paying for and there were no surprises at the end. Our new kitchen and bathroom look fantastic.</blockquote>
             <figcaption>[Client Name], [Suburb]</figcaption>
           </figure>
-          <figure class="card testimonial">
+          <figure class="card testimonial is-sample">
+            <span class="sample-tag">Sample layout — replace with a real client review</span>
             <div class="stars" aria-hidden="true">★★★★★</div>
-            <blockquote>[Client testimonial — a specific detail that stood out, like tidy site or clear communication.]</blockquote>
+            <blockquote>Bing and his team added a second storey to our home while we kept living downstairs. They turned up when they said they would, kept us posted every day and made a big project feel easy. The extra space has changed how our family lives.</blockquote>
             <figcaption>[Client Name], [Suburb]</figcaption>
           </figure>
+        </div>
+
+        <div class="review-cta">
+          <p>Had work done by Ziverse Constructions?</p>
+          <a href="#leave-review" class="btn btn-ghost btn-sm">Leave a review &#8594;</a>
         </div>
       </div>
     </section>
@@ -787,6 +991,68 @@ button { font-family: inherit; }
 
   </main>
 
+  <!-- ============ LEAVE A REVIEW (separate view) ============
+       Shown instead of the homepage when the URL ends in #leave-review
+       (see script.js, "Review page view"). Same single HTML file, so it
+       works on GitHub Pages without a second page. -->
+  <section id="leave-review" class="review-page" hidden>
+    <div class="container">
+      <a href="#testimonials" class="back-link">&#8592; Back to home</a>
+            <!-- Customer review form. Submissions are emailed to the business via
+                 Formspree (replace YOUR_REVIEW_FORM_ID) and nothing is published
+                 automatically: copy approved reviews into the cards above. -->
+            <div class="review-row">
+              <div class="review-copy">
+                <p class="eyebrow eyebrow-accent">Leave a Review</p>
+                <h3>Built with us? We'd love to hear how it went.</h3>
+                <p>Your feedback helps other homeowners choose with confidence, and tells us what to keep doing. Every review is read personally before it appears on this site.</p>
+                <!-- Replace href with the Google Business Profile "write a review" link -->
+                <a href="#testimonials" class="btn btn-ghost btn-sm">Or review us on Google &#8599;</a>
+              </div>
+              <form id="review-form" class="review-form" action="https://formspree.io/f/YOUR_REVIEW_FORM_ID" method="POST">
+                <input type="hidden" name="_subject" value="New customer review - Ziverse Constructions website">
+                <fieldset class="rating-field">
+                  <legend>Your rating</legend>
+                  <div class="rating">
+                    <input type="radio" id="rv-r5" name="rating" value="5" required><label for="rv-r5"><span aria-hidden="true">&#9733;</span><span class="sr-only">5 stars</span></label>
+                    <input type="radio" id="rv-r4" name="rating" value="4"><label for="rv-r4"><span aria-hidden="true">&#9733;</span><span class="sr-only">4 stars</span></label>
+                    <input type="radio" id="rv-r3" name="rating" value="3"><label for="rv-r3"><span aria-hidden="true">&#9733;</span><span class="sr-only">3 stars</span></label>
+                    <input type="radio" id="rv-r2" name="rating" value="2"><label for="rv-r2"><span aria-hidden="true">&#9733;</span><span class="sr-only">2 stars</span></label>
+                    <input type="radio" id="rv-r1" name="rating" value="1"><label for="rv-r1"><span aria-hidden="true">&#9733;</span><span class="sr-only">1 star</span></label>
+                  </div>
+                </fieldset>
+                <div class="field-row">
+                  <div class="field">
+                    <label for="rv-name">First name</label>
+                    <input id="rv-name" name="name" type="text" placeholder="Jamie" required>
+                  </div>
+                  <div class="field">
+                    <label for="rv-suburb">Suburb</label>
+                    <input id="rv-suburb" name="suburb" type="text" placeholder="Castle Hill" required>
+                  </div>
+                </div>
+                <div class="field">
+                  <label for="rv-type">What did we build for you?</label>
+                  <select id="rv-type" name="project_type">
+                    <option>New home</option>
+                    <option>Renovation / extension</option>
+                    <option>Deck / outdoor</option>
+                    <option>Bathroom / kitchen</option>
+                    <option>Other</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label for="rv-msg">Your review</label>
+                  <textarea id="rv-msg" name="review" placeholder="How was the communication, the finish, and the experience overall?" required></textarea>
+                </div>
+                <label class="consent"><input type="checkbox" name="consent" value="yes" required><span>I'm happy for my first name, suburb and review to be shown on this website.</span></label>
+                <button type="submit" class="btn btn-accent btn-full">Submit Review</button>
+                <p id="review-status" class="form-status" role="status" aria-live="polite" hidden></p>
+              </form>
+            </div>
+    </div>
+  </section>
+
   <!-- ============ FOOTER ============ -->
   <footer class="site-footer">
     <div class="container footer-top">
@@ -820,6 +1086,15 @@ button { font-family: inherit; }
     toggle.addEventListener('click', function () {
       var isOpen = nav.classList.toggle('is-open');
       toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    });
+
+    // Escape closes the menu (keyboard users on iPad / laptop).
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && nav.classList.contains('is-open')) {
+        nav.classList.remove('is-open');
+        toggle.setAttribute('aria-expanded', 'false');
+        toggle.focus();
+      }
     });
 
     // Close the menu after tapping a link (mobile).
@@ -875,51 +1150,77 @@ button { font-family: inherit; }
     }
   }
 
+  // --- Review page view ---
+  // #leave-review swaps the homepage for the review form; any other hash
+  // (nav links, "Back to home", browser Back) restores the homepage.
+  var reviewPage = document.getElementById('leave-review');
+  var mainEl = document.querySelector('main');
+  function syncReviewView() {
+    if (!reviewPage || !mainEl) return;
+    var onReview = location.hash === '#leave-review';
+    reviewPage.hidden = !onReview;
+    mainEl.hidden = onReview;
+    if (onReview) {
+      window.scrollTo({ top: 0, behavior: 'instant' });
+    } else if (location.hash.length > 1) {
+      var target = document.getElementById(location.hash.slice(1));
+      if (target) target.scrollIntoView({ behavior: 'instant' });
+    }
+  }
+  window.addEventListener('hashchange', syncReviewView);
+  syncReviewView();
+
   // --- Footer year ---
   var yearEl = document.getElementById('year');
   if (yearEl) {
     yearEl.textContent = new Date().getFullYear();
   }
 
-  // --- Quote form: submit without leaving the page ---
-  // Uses Formspree's AJAX endpoint (https://formspree.io/f/YOUR_FORM_ID in index.html).
+  // --- Forms (quote + review): submit without leaving the page ---
+  // Both post to Formspree's AJAX endpoint (form IDs are in index.html).
   // Falls back to a normal form POST if fetch/JS is unavailable.
-  var form = document.getElementById('quote-form');
-  var status = document.getElementById('form-status');
+  function wireForm(formId, statusId, successMsg, errorMsg) {
+    var form = document.getElementById(formId);
+    var status = document.getElementById(statusId);
+    if (!form || !status) return;
 
-  if (form && status) {
     form.addEventListener('submit', function (event) {
       event.preventDefault();
       status.hidden = true;
       status.classList.remove('success', 'error');
 
-      var data = new FormData(form);
-
       fetch(form.action, {
         method: 'POST',
-        body: data,
+        body: new FormData(form),
         headers: { Accept: 'application/json' }
       })
         .then(function (response) {
           if (response.ok) {
             form.reset();
-            status.textContent = "Thanks — we'll be in touch shortly.";
+            status.textContent = successMsg;
             status.classList.add('success');
           } else {
-            status.textContent = 'Something went wrong sending that. Please call us instead.';
+            status.textContent = errorMsg;
             status.classList.add('error');
           }
           status.hidden = false;
         })
         .catch(function () {
-          status.textContent = 'Something went wrong sending that. Please call us instead.';
+          status.textContent = errorMsg;
           status.classList.add('error');
           status.hidden = false;
         });
     });
   }
+
+  wireForm('quote-form', 'form-status',
+    "Thanks \u2014 we'll be in touch shortly.",
+    'Something went wrong sending that. Please call us instead.');
+  wireForm('review-form', 'review-status',
+    "Thank you! We'll read your review and add it to the site shortly.",
+    "Sorry, that didn't send. Please try again, or call us to share your feedback.");
 })();
 
-  </script>
+</script>
 </body>
 </html>
