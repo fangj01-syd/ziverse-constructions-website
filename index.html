@@ -807,6 +807,40 @@ html { scroll-padding-top: 84px; }               /* anchors land below the stick
 }
 @media (max-width: 400px) { #gallery { --t-gutter: 16px; } }
 
+/* --- Services & Process: swipeable on phones --- */
+@media (max-width: 720px) {
+  .swipe-sm { --t-gutter: 24px; }
+  .swipe-sm .swipe-track {
+    display: flex;
+    gap: 16px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    overscroll-behavior-x: contain;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    margin-inline: calc(var(--t-gutter) * -1);
+    padding: 4px var(--t-gutter) 8px;
+    scroll-padding-inline: var(--t-gutter);
+    list-style: none;
+  }
+  .swipe-sm .swipe-track::-webkit-scrollbar { display: none; }
+  .swipe-sm .swipe-track > * {
+    flex: 0 0 min(80%, 340px);
+    margin: 0;
+    scroll-snap-align: start;
+  }
+  #process .process-step {
+    background: var(--card-bg);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 24px;
+  }
+  .swipe-sm .t-dots { display: flex; }
+  .swipe-sm .t-hint { display: block; }
+}
+@media (min-width: 721px) { .swipe-sm .t-dots, .swipe-sm .t-hint { display: none !important; } }
+@media (max-width: 400px) { .swipe-sm { --t-gutter: 16px; } }
+
 </style>
 
   <!-- Business details for Google (structured data). Update if details change. -->
@@ -912,13 +946,13 @@ html { scroll-padding-top: 84px; }               /* anchors land below the stick
     </section>
 
     <!-- ============ SERVICES ============ -->
-    <section id="services" class="section">
+    <section id="services" class="section swipe-sm">
       <div class="container">
         <div class="section-head">
           <p class="eyebrow eyebrow-accent">What We Do</p>
           <h2>Services built around how homeowners actually renovate.</h2>
         </div>
-        <div class="grid grid-4">
+        <div class="grid grid-4 swipe-track" aria-label="Our services">
           <article class="card">
             <svg class="card-icon" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 21h18"></path><path d="M5 21V9l7-5 7 5v12"></path><path d="M9 9h.01"></path><path d="M9 13h.01"></path><path d="M15 9h.01"></path><path d="M15 13h.01"></path></svg>
             <h3>New Homes</h3>
@@ -940,15 +974,17 @@ html { scroll-padding-top: 84px; }               /* anchors land below the stick
             <p>Decks, pergolas and alfresco areas built to handle the Australian outdoors.</p>
           </article>
         </div>
+        <div class="t-dots" aria-label="Choose a service"></div>
+        <p class="t-hint">Swipe to see more services &#8594;</p>
       </div>
     </section>
 
     <!-- ============ PROCESS ============ -->
-    <section class="section section-tint">
+    <section id="process" class="section section-tint swipe-sm">
       <div class="container">
         <p class="eyebrow eyebrow-accent">How It Works</p>
         <h2 class="section-title-loose">A straightforward process, from first call to handover.</h2>
-        <ol class="grid grid-4 process-list">
+        <ol class="grid grid-4 process-list swipe-track">
           <li class="process-step">
             <span class="step-number mono">01</span>
             <h3>Free On-Site Chat</h3>
@@ -970,6 +1006,8 @@ html { scroll-padding-top: 84px; }               /* anchors land below the stick
             <p>A final walkthrough, all paperwork, and statutory warranty behind the work.</p>
           </li>
         </ol>
+        <div class="t-dots" aria-label="Choose a step"></div>
+        <p class="t-hint">Swipe to see each step &#8594;</p>
       </div>
     </section>
 
@@ -1464,6 +1502,8 @@ html { scroll-padding-top: 84px; }               /* anchors land below the stick
   }
   initCarousel(document.querySelector('#testimonials .testimonial-track'), document.querySelector('#testimonials .t-dots'), 'review');
   initCarousel(document.querySelector('#gallery .gallery-track'), document.querySelector('#gallery .t-dots'), 'project');
+  initCarousel(document.querySelector('#services .swipe-track'), document.querySelector('#services .t-dots'), 'service');
+  initCarousel(document.querySelector('#process .swipe-track'), document.querySelector('#process .t-dots'), 'step');
 })();
 
 </script>
