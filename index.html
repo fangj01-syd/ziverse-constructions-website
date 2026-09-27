@@ -841,6 +841,9 @@ html { scroll-padding-top: 84px; }               /* anchors land below the stick
 @media (min-width: 721px) { .swipe-sm .t-dots, .swipe-sm .t-hint { display: none !important; } }
 @media (max-width: 400px) { .swipe-sm { --t-gutter: 16px; } }
 
+/* About photo: keep both people in frame when cropped to portrait */
+.about-photo.has-photo img { object-position: 44% 50%; }
+
 </style>
 
   <!-- Business details for Google (structured data). Update if details change. -->
@@ -979,40 +982,8 @@ html { scroll-padding-top: 84px; }               /* anchors land below the stick
       </div>
     </section>
 
-    <!-- ============ PROCESS ============ -->
-    <section id="process" class="section section-tint swipe-sm">
-      <div class="container">
-        <p class="eyebrow eyebrow-accent">How It Works</p>
-        <h2 class="section-title-loose">A straightforward process, from first call to handover.</h2>
-        <ol class="grid grid-4 process-list swipe-track">
-          <li class="process-step">
-            <span class="step-number mono">01</span>
-            <h3>Free On-Site Chat</h3>
-            <p>We walk the site with you and talk through what's possible and what it costs.</p>
-          </li>
-          <li class="process-step">
-            <span class="step-number mono">02</span>
-            <h3>Fixed-Price Quote</h3>
-            <p>A written, itemised quote — no vague allowances, no surprises later.</p>
-          </li>
-          <li class="process-step">
-            <span class="step-number mono">03</span>
-            <h3>Build &amp; Updates</h3>
-            <p>Regular progress updates and photos so you always know where things stand.</p>
-          </li>
-          <li class="process-step">
-            <span class="step-number mono">04</span>
-            <h3>Handover &amp; Warranty</h3>
-            <p>A final walkthrough, all paperwork, and statutory warranty behind the work.</p>
-          </li>
-        </ol>
-        <div class="t-dots" aria-label="Choose a step"></div>
-        <p class="t-hint">Swipe to see each step &#8594;</p>
-      </div>
-    </section>
-
     <!-- ============ GALLERY ============ -->
-    <section id="gallery" class="section">
+    <section id="gallery" class="section section-tint">
       <div class="container">
         <div class="section-head section-head-row">
           <div>
@@ -1046,11 +1017,43 @@ html { scroll-padding-top: 84px; }               /* anchors land below the stick
       </div>
     </section>
 
+    <!-- ============ PROCESS ============ -->
+    <section id="process" class="section swipe-sm">
+      <div class="container">
+        <p class="eyebrow eyebrow-accent">How It Works</p>
+        <h2 class="section-title-loose">A straightforward process, from first call to handover.</h2>
+        <ol class="grid grid-4 process-list swipe-track">
+          <li class="process-step">
+            <span class="step-number mono">01</span>
+            <h3>Free On-Site Chat</h3>
+            <p>We walk the site with you and talk through what's possible and what it costs.</p>
+          </li>
+          <li class="process-step">
+            <span class="step-number mono">02</span>
+            <h3>Fixed-Price Quote</h3>
+            <p>A written, itemised quote — no vague allowances, no surprises later.</p>
+          </li>
+          <li class="process-step">
+            <span class="step-number mono">03</span>
+            <h3>Build &amp; Updates</h3>
+            <p>Regular progress updates and photos so you always know where things stand.</p>
+          </li>
+          <li class="process-step">
+            <span class="step-number mono">04</span>
+            <h3>Handover &amp; Warranty</h3>
+            <p>A final walkthrough, all paperwork, and statutory warranty behind the work.</p>
+          </li>
+        </ol>
+        <div class="t-dots" aria-label="Choose a step"></div>
+        <p class="t-hint">Swipe to see each step &#8594;</p>
+      </div>
+    </section>
+
     <!-- ============ ABOUT ============ -->
     <section id="about" class="section section-dark">
       <div class="container about-row">
         <div class="img-placeholder ratio-3-4 about-photo plate plate-dark has-photo">
-          <img src="https://images.unsplash.com/photo-1587582423116-ec07293f0395?fm=jpg&amp;q=80&amp;w=1200&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0" srcset="https://images.unsplash.com/photo-1587582423116-ec07293f0395?fm=jpg&amp;q=80&amp;w=600&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0 600w, https://images.unsplash.com/photo-1587582423116-ec07293f0395?fm=jpg&amp;q=80&amp;w=1200&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0 1200w" sizes="(max-width: 960px) 100vw, 380px" alt="Builder on a timber-framed job site, placeholder photo" loading="lazy">
+          <img src="https://images.unsplash.com/photo-1742112125635-6f8201c6ee3f?fm=jpg&amp;q=80&amp;w=1200&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0" srcset="https://images.unsplash.com/photo-1742112125635-6f8201c6ee3f?fm=jpg&amp;q=80&amp;w=600&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0 600w, https://images.unsplash.com/photo-1742112125635-6f8201c6ee3f?fm=jpg&amp;q=80&amp;w=1200&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0 1200w" sizes="(max-width: 960px) 100vw, 380px" alt="Two tradespeople in hard hats shaking hands on site, placeholder photo" loading="lazy">
         </div>
         <div class="about-copy">
           <p class="eyebrow eyebrow-accent">About Ziverse Constructions</p>
