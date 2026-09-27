@@ -736,6 +736,53 @@ html { scroll-padding-top: 84px; }               /* anchors land below the stick
 
 .about-facts dd.licence-note { font-size: 12px; color: var(--text-invert-muted); margin-top: 2px; max-width: 260px; line-height: 1.4; }
 
+/* Logo: one line on wide screens, stacked two-line wordmark on phones */
+.logo-text { display: inline-flex; gap: 0.3em; }
+@media (max-width: 600px) {
+  .logo-text { flex-direction: column; gap: 3px; line-height: 1; }
+  .logo-word { font-size: 20px; }
+  .logo-sub { font-size: 10.5px; letter-spacing: 0.2em; font-weight: 800; }
+  .logo svg { width: 28px; height: 28px; }
+}
+
+/* --- Reviews: swipeable carousel on phones & tablets --- */
+.t-dots { display: none; }
+@media (max-width: 960px) {
+  #testimonials { --t-gutter: 24px; }
+  #testimonials .testimonial-track {
+    display: flex;
+    gap: 16px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    overscroll-behavior-x: contain;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    margin-inline: calc(var(--t-gutter) * -1);
+    padding: 4px var(--t-gutter) 12px;
+    scroll-padding-inline: var(--t-gutter);
+  }
+  #testimonials .testimonial-track::-webkit-scrollbar { display: none; }
+  #testimonials .testimonial-track > .testimonial {
+    flex: 0 0 min(86%, 420px);
+    margin: 0;
+    scroll-snap-align: start;
+  }
+  .t-dots { display: flex; justify-content: center; align-items: center; gap: 2px; margin-top: 12px; }
+  .t-dot {
+    width: 28px; height: 28px; padding: 0; border: 0; background: none;
+    display: grid; place-items: center; cursor: pointer;
+  }
+  .t-dot::before {
+    content: ""; width: 8px; height: 8px; border-radius: 999px;
+    background: var(--line-tint); transition: width .2s ease, background-color .2s ease;
+  }
+  .t-dot[aria-current="true"]::before { width: 22px; background: var(--accent-ink); }
+  .t-hint { text-align: center; font-size: 13px; color: var(--muted); margin-top: 2px; }
+}
+@media (min-width: 961px) { .t-hint { display: none; } }
+@media (max-width: 400px) { #testimonials { --t-gutter: 16px; } }
+@media (prefers-reduced-motion: reduce) { .t-dot::before { transition: none; } }
+
 </style>
 
   <!-- Business details for Google (structured data). Update if details change. -->
@@ -767,7 +814,7 @@ html { scroll-padding-top: 84px; }               /* anchors land below the stick
         <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
           <path d="M3 21h18"></path><path d="M5 21V9l7-5 7 5v12"></path><path d="M9 21v-6h6v6"></path>
         </svg>
-        <span>ZIVERSE BUILD</span>
+        <span class="logo-text"><span class="logo-word">ZIVERSE</span> <span class="logo-sub">CONSTRUCTIONS</span></span>
       </a>
 
       <nav class="main-nav" id="main-nav">
@@ -969,7 +1016,7 @@ html { scroll-padding-top: 84px; }               /* anchors land below the stick
       <div class="container">
         <p class="eyebrow eyebrow-accent text-center">What Clients Say</p>
         <h2 class="text-center section-title-loose">Word of mouth is how this business grows.</h2>
-        <div class="grid grid-3">
+        <div class="grid grid-3 testimonial-track" aria-label="Client reviews">
           <figure class="card testimonial">
             <div class="stars" aria-hidden="true">★★★★★</div>
             <blockquote>Bing built our new deck and we couldn't be happier. He talked us through the design and materials up front, kept us in the loop the whole way, and he and his team left everything neat and tidy at the end of each day. The finish is excellent and it's now our favourite spot at home. Thanks Bing and team!</blockquote>
@@ -991,6 +1038,8 @@ html { scroll-padding-top: 84px; }               /* anchors land below the stick
             <figcaption>[Client Name], [Suburb]</figcaption>
           </figure>
         </div>
+        <div class="t-dots" aria-label="Choose a review"></div>
+        <p class="t-hint">Swipe to see more reviews &#8594;</p>
 
         <div class="review-cta">
           <p>Had work done by Ziverse Constructions?</p>
@@ -1168,7 +1217,7 @@ html { scroll-padding-top: 84px; }               /* anchors land below the stick
     <div class="container footer-top">
       <a href="#top" class="logo logo-invert">
         <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 21h18"></path><path d="M5 21V9l7-5 7 5v12"></path><path d="M9 21v-6h6v6"></path></svg>
-        <span>ZIVERSE BUILD</span>
+        <span class="logo-text"><span class="logo-word">ZIVERSE</span> <span class="logo-sub">CONSTRUCTIONS</span></span>
       </a>
       <nav class="footer-nav">
         <a href="#services">Services</a>
@@ -1349,6 +1398,42 @@ html { scroll-padding-top: 84px; }               /* anchors land below the stick
   wireForm('review-form', 'review-status',
     "Thank you! We'll read your review and add it to the site shortly.",
     "Sorry, that didn't send. Please try again, or call us to share your feedback.");
+
+  /* Reviews carousel (phones & tablets): dots follow the swipe, tap a dot to jump */
+  var track = document.querySelector('#testimonials .testimonial-track');
+  var dotsWrap = document.querySelector('#testimonials .t-dots');
+  if (track && dotsWrap) {
+    var cards = Array.prototype.slice.call(track.children).filter(function (el) { return el.tagName === 'FIGURE'; });
+    var dots = cards.map(function (card, i) {
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.className = 't-dot';
+      b.setAttribute('aria-label', 'Show review ' + (i + 1) + ' of ' + cards.length);
+      b.addEventListener('click', function () {
+        var pad = parseFloat(getComputedStyle(track).paddingLeft) || 0;
+        track.scrollBy({ left: card.getBoundingClientRect().left - track.getBoundingClientRect().left - pad, behavior: 'smooth' });
+      });
+      dotsWrap.appendChild(b);
+      return b;
+    });
+    var setActive = function () {
+      var best = 0, bestDist = Infinity, left = track.getBoundingClientRect().left;
+      cards.forEach(function (c, i) {
+        var d = Math.abs(c.getBoundingClientRect().left - left);
+        if (d < bestDist) { bestDist = d; best = i; }
+      });
+      if (track.scrollLeft + track.clientWidth >= track.scrollWidth - 4) best = cards.length - 1;
+      dots.forEach(function (d, i) { d.setAttribute('aria-current', i === best ? 'true' : 'false'); });
+    };
+    var ticking = false;
+    track.addEventListener('scroll', function () {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(function () { ticking = false; setActive(); });
+    }, { passive: true });
+    window.addEventListener('resize', setActive);
+    setActive();
+  }
 })();
 
 </script>
