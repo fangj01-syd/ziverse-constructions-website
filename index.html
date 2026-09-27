@@ -783,6 +783,30 @@ html { scroll-padding-top: 84px; }               /* anchors land below the stick
 @media (max-width: 400px) { #testimonials { --t-gutter: 16px; } }
 @media (prefers-reduced-motion: reduce) { .t-dot::before { transition: none; } }
 
+/* --- Recent Projects: swipeable carousel on phones & tablets --- */
+@media (max-width: 960px) {
+  #gallery { --t-gutter: 24px; }
+  #gallery .gallery-track {
+    display: flex;
+    gap: 16px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    overscroll-behavior-x: contain;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    margin-inline: calc(var(--t-gutter) * -1);
+    padding: 4px var(--t-gutter) 8px;
+    scroll-padding-inline: var(--t-gutter);
+  }
+  #gallery .gallery-track::-webkit-scrollbar { display: none; }
+  #gallery .gallery-track > .img-placeholder {
+    flex: 0 0 min(86%, 460px);
+    margin: 0;
+    scroll-snap-align: start;
+  }
+}
+@media (max-width: 400px) { #gallery { --t-gutter: 16px; } }
+
 </style>
 
   <!-- Business details for Google (structured data). Update if details change. -->
@@ -959,7 +983,7 @@ html { scroll-padding-top: 84px; }               /* anchors land below the stick
           </div>
           <a href="#quote" class="text-link">Start your project &#8594;</a>
         </div>
-        <div class="grid grid-3">
+        <div class="grid grid-3 gallery-track" aria-label="Recent projects">
           <div class="img-placeholder ratio-4-3 plate has-photo">
             <img src="https://images.unsplash.com/photo-1778936317494-246b9262bbaf?fm=jpg&amp;q=80&amp;w=1200&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0" srcset="https://images.unsplash.com/photo-1778936317494-246b9262bbaf?fm=jpg&amp;q=80&amp;w=600&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0 600w, https://images.unsplash.com/photo-1778936317494-246b9262bbaf?fm=jpg&amp;q=80&amp;w=1200&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0 1200w" sizes="(max-width: 720px) 100vw, 50vw" alt="Kitchen renovation with granite benchtops" loading="lazy">
           </div>
@@ -979,6 +1003,8 @@ html { scroll-padding-top: 84px; }               /* anchors land below the stick
             <img src="https://images.unsplash.com/photo-1591474200742-8e512e6f98f8?fm=jpg&amp;q=80&amp;w=1200&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0" srcset="https://images.unsplash.com/photo-1591474200742-8e512e6f98f8?fm=jpg&amp;q=80&amp;w=600&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0 600w, https://images.unsplash.com/photo-1591474200742-8e512e6f98f8?fm=jpg&amp;q=80&amp;w=1200&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0 1200w" sizes="(max-width: 720px) 100vw, 50vw" alt="Modern two-storey home with large glazing and stone-clad walls" loading="lazy">
           </div>
         </div>
+        <div class="t-dots" aria-label="Choose a project"></div>
+        <p class="t-hint">Swipe to see more projects &#8594;</p>
       </div>
     </section>
 
@@ -1399,30 +1425,32 @@ html { scroll-padding-top: 84px; }               /* anchors land below the stick
     "Thank you! We'll read your review and add it to the site shortly.",
     "Sorry, that didn't send. Please try again, or call us to share your feedback.");
 
-  /* Reviews carousel (phones & tablets): dots follow the swipe, tap a dot to jump */
-  var track = document.querySelector('#testimonials .testimonial-track');
-  var dotsWrap = document.querySelector('#testimonials .t-dots');
-  if (track && dotsWrap) {
-    var cards = Array.prototype.slice.call(track.children).filter(function (el) { return el.tagName === 'FIGURE'; });
-    var dots = cards.map(function (card, i) {
+  /* Swipe carousels on phones & tablets (Reviews, Recent Projects):
+     dots follow the swipe; tap a dot to jump to that item */
+  function initCarousel(track, dotsWrap, label) {
+    if (!track || !dotsWrap) return;
+    var items = Array.prototype.slice.call(track.children).filter(function (el) {
+      return el.nodeType === 1 && el.tagName !== 'SCRIPT';
+    });
+    var dots = items.map(function (item, i) {
       var b = document.createElement('button');
       b.type = 'button';
       b.className = 't-dot';
-      b.setAttribute('aria-label', 'Show review ' + (i + 1) + ' of ' + cards.length);
+      b.setAttribute('aria-label', 'Show ' + label + ' ' + (i + 1) + ' of ' + items.length);
       b.addEventListener('click', function () {
         var pad = parseFloat(getComputedStyle(track).paddingLeft) || 0;
-        track.scrollBy({ left: card.getBoundingClientRect().left - track.getBoundingClientRect().left - pad, behavior: 'smooth' });
+        track.scrollBy({ left: item.getBoundingClientRect().left - track.getBoundingClientRect().left - pad, behavior: 'smooth' });
       });
       dotsWrap.appendChild(b);
       return b;
     });
     var setActive = function () {
       var best = 0, bestDist = Infinity, left = track.getBoundingClientRect().left;
-      cards.forEach(function (c, i) {
+      items.forEach(function (c, i) {
         var d = Math.abs(c.getBoundingClientRect().left - left);
         if (d < bestDist) { bestDist = d; best = i; }
       });
-      if (track.scrollLeft + track.clientWidth >= track.scrollWidth - 4) best = cards.length - 1;
+      if (track.scrollLeft > 0 && track.scrollLeft + track.clientWidth >= track.scrollWidth - 4) best = items.length - 1;
       dots.forEach(function (d, i) { d.setAttribute('aria-current', i === best ? 'true' : 'false'); });
     };
     var ticking = false;
@@ -1434,6 +1462,8 @@ html { scroll-padding-top: 84px; }               /* anchors land below the stick
     window.addEventListener('resize', setActive);
     setActive();
   }
+  initCarousel(document.querySelector('#testimonials .testimonial-track'), document.querySelector('#testimonials .t-dots'), 'review');
+  initCarousel(document.querySelector('#gallery .gallery-track'), document.querySelector('#gallery .t-dots'), 'project');
 })();
 
 </script>
