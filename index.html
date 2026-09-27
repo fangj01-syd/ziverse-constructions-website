@@ -3,13 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ziverse Constructions | Licensed Builder in [SERVICE AREA]</title>
-  <meta name="description" content="Ziverse Constructions is a licensed, insured residential builder serving [SUBURBS / REGION]. New homes, renovations, extensions, decks and outdoor living. Free written quotes.">
+  <title>Ziverse Constructions | Licensed Builder in Sydney &amp; the Blue Mountains</title>
+  <meta name="description" content="Ziverse Constructions is a licensed, insured residential builder serving all of Sydney and the Blue Mountains. New homes, renovations, extensions, decks and outdoor living. Free written quotes.">
 
   <!-- Open Graph (used when the link is shared on Facebook / Messenger / etc.) -->
-  <meta property="og:title" content="Ziverse Constructions | Licensed Builder in [SERVICE AREA]">
+  <meta property="og:title" content="Ziverse Constructions | Licensed Builder in Sydney &amp; the Blue Mountains">
   <meta property="og:description" content="New homes, renovations, extensions, decks and outdoor living, built to last. Free written quotes.">
   <meta property="og:type" content="website">
+  <meta property="og:url" content="https://www.ziverse.com.au/">
+  <link rel="canonical" href="https://www.ziverse.com.au/">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -676,7 +678,82 @@ html { scroll-padding-top: 84px; }               /* anchors land below the stick
   .hero-media { aspect-ratio: 16 / 9; }
 }
 
+/* --- Mobile quick-action bar (phones & tablets) --- */
+.mobile-cta { display: none; }
+@media (max-width: 960px) {
+  .mobile-cta {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 40;
+    display: flex;
+    gap: 10px;
+    padding: 10px max(16px, env(safe-area-inset-right, 0px)) calc(10px + env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px));
+    background: rgba(20, 24, 26, 0.96);
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+    border-top: 1px solid var(--line-dark);
+    box-shadow: 0 -10px 24px -12px rgba(0, 0, 0, 0.45);
+    transition: transform .25s ease;
+  }
+  .mobile-cta.is-hidden { transform: translateY(110%); }
+  .mobile-cta a {
+    flex: 1 1 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 48px;
+    border-radius: 3px;
+    font-weight: 700;
+    font-size: 16px;
+  }
+  .mobile-cta-call { background: var(--accent); color: var(--text); }
+  .mobile-cta-call:hover { color: var(--text); }
+  .mobile-cta-quote { border: 2px solid var(--text-invert); color: var(--text-invert); }
+  .mobile-cta-quote:hover { color: var(--text-invert); }
+  /* room so the bar never hides the last lines of the footer */
+  .site-footer { padding-bottom: calc(100px + env(safe-area-inset-bottom, 0px)); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .mobile-cta { transition: none; }
+}
+
+/* --- Service areas (contact section) --- */
+.area-block { display: flex; flex-direction: column; gap: 10px; margin-top: 12px; }
+.area-title { font-weight: 800; font-size: 14px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted-on-tint); }
+.area-list { display: flex; flex-wrap: wrap; gap: 8px; }
+.area-list li {
+  font-size: 13px;
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: var(--card-bg);
+  border: 1px solid var(--line-tint);
+  color: var(--text);
+}
+
 </style>
+
+  <!-- Business details for Google (structured data). Add "telephone" and
+       swap in the real phone number once confirmed. -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "GeneralContractor",
+    "name": "Ziverse Constructions",
+    "legalName": "Ziverse Constructions Pty Ltd",
+    "description": "Licensed residential builder for new homes, renovations, extensions, decks and outdoor living across Sydney and the Blue Mountains.",
+    "url": "https://www.ziverse.com.au/",
+    "areaServed": [
+      { "@type": "City", "name": "Sydney" },
+      { "@type": "Place", "name": "Blue Mountains, New South Wales" }
+    ],
+    "address": { "@type": "PostalAddress", "addressRegion": "NSW", "addressCountry": "AU" },
+    "knowsAbout": ["New homes", "Knockdown rebuilds", "Home extensions", "Renovations", "Bathroom renovations", "Kitchen renovations", "Decks", "Pergolas"]
+  }
+  </script>
 </head>
 <body>
 
@@ -716,9 +793,9 @@ html { scroll-padding-top: 84px; }               /* anchors land below the stick
     <section class="hero">
       <div class="container hero-row">
         <div class="hero-copy">
-          <p class="eyebrow eyebrow-accent">Licensed Residential Builder — [SERVICE AREA]</p>
+          <p class="eyebrow eyebrow-accent">Licensed Residential Builder — Sydney &amp; Blue Mountains</p>
           <h1>Custom builds &amp; renovations, done right the first time.</h1>
-          <p class="lede">From new homes to extensions, decks and renovations — Ziverse Constructions has been building for [SUBURB / REGION] families with honest quotes and no shortcuts.</p>
+          <p class="lede">From new homes to extensions, decks and renovations — Ziverse Constructions has been building for families across Sydney and the Blue Mountains, with honest quotes and no shortcuts.</p>
           <div class="btn-row">
             <a href="#quote" class="btn btn-accent">Get a Free Quote</a>
             <a href="#gallery" class="btn btn-ghost-invert">View Our Work</a>
@@ -755,7 +832,7 @@ html { scroll-padding-top: 84px; }               /* anchors land below the stick
         </div>
         <div class="trust-item">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
-          Serving [SUBURBS / REGION]
+          Serving Greater Sydney &amp; Blue Mountains
         </div>
       </div>
     </section>
@@ -936,9 +1013,24 @@ html { scroll-padding-top: 84px; }               /* anchors land below the stick
             </li>
             <li>
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
-              <span>Serving [SUBURBS / REGION]</span>
+              <span>Serving Greater Sydney &amp; the Blue Mountains</span>
             </li>
           </ul>
+          <div class="area-block">
+            <p class="area-title">Areas we build in</p>
+            <ul class="area-list">
+              <li>Hills District</li>
+              <li>Western Sydney</li>
+              <li>Parramatta</li>
+              <li>Inner West</li>
+              <li>North Shore</li>
+              <li>Northern Beaches</li>
+              <li>Eastern Suburbs</li>
+              <li>St George &amp; Sutherland Shire</li>
+              <li>South West Sydney</li>
+              <li>Blue Mountains</li>
+            </ul>
+          </div>
         </div>
 
         <form id="quote-form" class="quote-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
@@ -1053,6 +1145,18 @@ html { scroll-padding-top: 84px; }               /* anchors land below the stick
     </div>
   </section>
 
+  <!-- ============ MOBILE QUICK-ACTION BAR ============
+       Phones & tablets only (CSS). Slides away while the hero, a form or
+       the footer is on screen so it never covers a Submit button
+       (script.js, "Mobile quick-action bar"). Update the tel: number. -->
+  <div class="mobile-cta is-hidden" id="mobile-cta" inert>
+    <a href="tel:0400000000" class="mobile-cta-call">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+      Call Now
+    </a>
+    <a href="#quote" class="mobile-cta-quote">Free Quote</a>
+  </div>
+
   <!-- ============ FOOTER ============ -->
   <footer class="site-footer">
     <div class="container footer-top">
@@ -1069,7 +1173,7 @@ html { scroll-padding-top: 84px; }               /* anchors land below the stick
     </div>
     <div class="container footer-bottom mono">
       <span>&copy; <span id="year"></span> Ziverse Constructions. Licence No. [XXXXXX]. ABN [XX XXX XXX XXX].</span>
-      <span>Serving [SUBURBS / REGION], NSW</span>
+      <span>Serving Greater Sydney &amp; the Blue Mountains, NSW</span>
     </div>
   </footer>
 
@@ -1169,6 +1273,26 @@ html { scroll-padding-top: 84px; }               /* anchors land below the stick
   }
   window.addEventListener('hashchange', syncReviewView);
   syncReviewView();
+
+  // --- Mobile quick-action bar ---
+  // Hidden while the hero (which has its own buttons), either form or the
+  // footer is on screen; shown the rest of the time on phones/tablets.
+  var mobileCta = document.getElementById('mobile-cta');
+  if (mobileCta && 'IntersectionObserver' in window) {
+    var onScreen = new Set();
+    var ctaObserver = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) onScreen.add(e.target); else onScreen.delete(e.target);
+      });
+      var hide = onScreen.size > 0;
+      mobileCta.classList.toggle('is-hidden', hide);
+      mobileCta.inert = hide;
+    });
+    ['.hero', '#quote-form', '#review-form', '.site-footer'].forEach(function (sel) {
+      var el = document.querySelector(sel);
+      if (el) ctaObserver.observe(el);
+    });
+  }
 
   // --- Footer year ---
   var yearEl = document.getElementById('year');
