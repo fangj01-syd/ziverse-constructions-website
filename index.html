@@ -12,6 +12,17 @@
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://www.ziverse.com.au/">
   <link rel="canonical" href="https://www.ziverse.com.au/">
+  <meta property="og:image" content="https://www.ziverse.com.au/og-image.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Ziverse Constructions logo with phone 0450 466 610">
+  <meta property="og:site_name" content="Ziverse Constructions">
+  <meta name="twitter:card" content="summary_large_image">
+  <!-- Browser tab icon + home-screen icon -->
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="favicon.ico" sizes="any">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <meta name="theme-color" content="#14181A">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -871,6 +882,9 @@ html { scroll-padding-top: 84px; }               /* anchors land below the stick
 }
 @media (prefers-reduced-motion: reduce) { .fold-toggle .chev { transition: none; } }
 
+/* Long email address: allow it to wrap on small phones */
+.contact-list .email-link { overflow-wrap: anywhere; }
+
 </style>
 
   <!-- Business details for Google (structured data). Update if details change. -->
@@ -881,6 +895,7 @@ html { scroll-padding-top: 84px; }               /* anchors land below the stick
     "name": "Ziverse Constructions",
     "legalName": "Ziverse Constructions Pty Ltd",
     "telephone": "+61 450 466 610",
+    "email": "ziverseconstructions@gmail.com",
     "foundingDate": "2020-07-24",
     "description": "Licensed residential builder for new homes, renovations, extensions, decks and outdoor living across Sydney and the Blue Mountains.",
     "url": "https://www.ziverse.com.au/",
@@ -1154,12 +1169,11 @@ html { scroll-padding-top: 84px; }               /* anchors land below the stick
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
               <a href="tel:+61450466610" class="mono">0450 466 610</a>
             </li>
-            <!-- Email hidden until hello@ziverse.com.au forwarding is set up:
+            <!-- Email: switch to hello@ziverse.com.au once forwarding is set up -->
             <li>
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16v16H4z"></path><path d="m22 6-10 7L2 6"></path></svg>
-              <a href="mailto:hello@ziverse.com.au">hello@ziverse.com.au</a>
+              <a class="email-link" href="mailto:ziverseconstructions@gmail.com">ziverseconstructions@gmail.com</a>
             </li>
-            -->
             <li>
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
               <span>Serving Greater Sydney &amp; the Blue Mountains</span>
