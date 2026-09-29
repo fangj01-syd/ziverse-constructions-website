@@ -6,13 +6,13 @@ items:
   stars: 5
   text: Bing built our new deck and we couldn't be happier. He talked us through the design and materials up front, kept us in the loop the whole way, and he and his team left everything neat and tidy at the end of each day. The finish is excellent and it's now our favourite spot at home. Thanks Bing and team!
   sample: false
-- name: '[Client Name]'
-  suburb: '[Suburb]'
+- name: Mike
+  suburb: Chatswood
   stars: 5
   text: We got three quotes and Ziverse's was the only one that was fully itemised, with no vague allowances. Bing explained exactly what we were paying for and there were no surprises at the end. Our new kitchen and bathroom look fantastic.
-  sample: true
-- name: '[Client Name]'
-  suburb: '[Suburb]'
+  sample: false
+- name: Laura
+  suburb: Concord West
   stars: 5
-  text: Bing and his team added a second storey to our home while we kept living downstairs. They turned up when they said they would, kept us posted every day and made a big project feel easy. The extra space has changed how our family lives.
-  sample: true
+  text: Bing did the carpentry on our second-storey addition while we kept living downstairs. He turned up when he said he would, kept us posted every day and made a big project feel easy. The extra space has changed how our family lives.
+  sample: false
