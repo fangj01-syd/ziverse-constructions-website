@@ -12,6 +12,22 @@
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://www.ziverse.com.au/">
   <link rel="canonical" href="https://www.ziverse.com.au/">
+  <!-- Visitor statistics (Google Analytics 4). Paste the Measurement ID below
+       (looks like G-ABC123XYZ). While it still says G-XXXXXXXXXX nothing loads. -->
+  <script>
+    window.ZIVERSE_GA_ID = 'G-XXXXXXXXXX';
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){ dataLayer.push(arguments); }
+    (function (id) {
+      if (!id || id.indexOf('XXXX') !== -1) return;
+      var s = document.createElement('script');
+      s.async = true;
+      s.src = 'https://www.googletagmanager.com/gtag/js?id=' + id;
+      document.head.appendChild(s);
+      gtag('js', new Date());
+      gtag('config', id);
+    })(window.ZIVERSE_GA_ID);
+  </script>
   <meta property="og:image" content="https://www.ziverse.com.au/og-image.jpg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
@@ -885,8 +901,138 @@ html { scroll-padding-top: 84px; }               /* anchors land below the stick
 /* Long email address: allow it to wrap on small phones */
 .contact-list .email-link { overflow-wrap: anywhere; }
 
+/* --- "Message" button (phones) + SMS / WhatsApp options --- */
+.msg-sheet[hidden] { display: none !important; }
+.contact-list .msg-links a { color: var(--accent-ink); font-weight: 700; text-decoration: underline; text-underline-offset: 3px; }
+@media (min-width: 961px) { .msg-sheet { display: none !important; } }
+@media (max-width: 960px) {
+  .mobile-cta a, .mobile-cta button { font-size: 15px; }
+  .mobile-cta button {
+    flex: 1 1 0; display: flex; align-items: center; justify-content: center; gap: 7px;
+    min-height: 48px; border-radius: 3px; font: inherit; font-weight: 700; font-size: 15px; cursor: pointer;
+    background: transparent; color: var(--text-invert); border: 2px solid var(--text-invert);
+  }
+  .mobile-cta-msg[aria-expanded="true"] { background: var(--text-invert); color: var(--text); }
+  .msg-sheet {
+    position: fixed; z-index: 41;
+    left: max(16px, env(safe-area-inset-left, 0px)); right: max(16px, env(safe-area-inset-right, 0px));
+    bottom: calc(80px + env(safe-area-inset-bottom, 0px));
+    background: var(--card-bg); border: 1px solid var(--line); border-radius: 6px;
+    box-shadow: 0 18px 40px -12px rgba(0,0,0,.45); padding: 12px; display: flex; flex-direction: column; gap: 8px;
+  }
+  .msg-sheet-title { font-weight: 800; font-size: 14px; padding: 2px 4px 4px; }
+  .msg-opt {
+    display: flex; align-items: center; gap: 12px; min-height: 52px; padding: 8px 12px;
+    border: 1px solid var(--line); border-radius: 4px; color: var(--text); font-weight: 700; font-size: 15px;
+  }
+  .msg-opt span { display: flex; flex-direction: column; line-height: 1.25; }
+  .msg-opt em { font-style: normal; font-weight: 500; font-size: 12.5px; color: var(--muted); }
+  .msg-opt svg { flex-shrink: 0; color: var(--accent-ink); }
+  .msg-opt-wa svg { color: #1FA855; }
+}
+@media (max-width: 360px) { .mobile-cta { gap: 8px; } .mobile-cta a, .mobile-cta button { font-size: 14px; gap: 5px; } }
+
+/* --- FAQ (accordion) --- */
+.faq-wrap { max-width: 860px; }
+.faq-list { display: flex; flex-direction: column; gap: 10px; }
+.faq-item { background: var(--card-bg); border: 1px solid var(--line); border-radius: 4px; }
+.faq-item summary {
+  list-style: none; cursor: pointer; display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  padding: 18px 20px; font-weight: 800; font-size: 17px; min-height: 56px;
+}
+.faq-item summary::-webkit-details-marker { display: none; }
+.faq-item summary .chev { flex-shrink: 0; color: var(--accent-ink); transition: transform .2s ease; }
+.faq-item[open] summary .chev { transform: rotate(180deg); }
+.faq-item summary:focus-visible { outline: 2px solid var(--accent-ink); outline-offset: 2px; }
+.faq-a { padding: 0 20px 18px; color: var(--muted); line-height: 1.65; max-width: 70ch; }
+.faq-a a { color: var(--accent-ink); font-weight: 700; }
+.faq-a strong { color: var(--text); }
+.faq-more { text-align: center; margin-top: 28px; font-weight: 600; }
+.faq-more a { color: var(--accent-ink); font-weight: 800; }
+@media (max-width: 720px) {
+  .faq-item summary { font-size: 16px; padding: 16px; }
+  .faq-a { padding: 0 16px 16px; }
+}
+@media (prefers-reduced-motion: reduce) { .faq-item summary .chev { transition: none; } }
+
+/* Footer privacy line */
+.footer-privacy { font-size: 12px; line-height: 1.5; color: var(--text-invert-muted); padding-block: 0 20px; max-width: 900px; }
+
 </style>
 
+  <!-- FAQ for Google (keep in step with the FAQ section) -->
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How much will my job cost?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Every job is different, so we don't use price lists. After a free on-site visit, you get a fixed-price, itemised written quote, with no vague allowances and no surprises later."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do I need council approval for a deck?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Often not. In NSW many small decks count as exempt development: in most residential zones that generally means no more than 25 m², a floor no more than 1 m above ground, at least 900 mm from the boundary and behind the building line. Bigger or higher decks need a CDC or DA. We check your site and tell you which applies before we quote. NSW Planning Portal rules"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How much deposit do you ask for?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Never more than 10% of the contract price, which is the NSW limit. The rest is paid in stages set out in your contract as the work progresses."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Will I get a written contract?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. NSW law requires a written contract for any job over $5,000. Jobs over $20,000 also need home warranty insurance (HBCF) in place before any deposit is taken, and come with a 5-business-day cooling-off period."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Are you licensed and insured?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Ziverse Constructions works under NSW contractor licence 471023C (licensee Zhibin Lin) and carries $5 million public and products liability insurance."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is the work guaranteed?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "All residential building work in NSW is covered by statutory warranties: 6 years for major defects and 2 years for other defects. We also walk through the finished job with you at handover."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How long will it take?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "It depends on the size of the job and any approvals. Your quote includes a start date and an expected timeframe, and you get regular progress updates and photos along the way."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Which areas do you cover?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "All of Greater Sydney and the Blue Mountains, including the Hills District, Western Sydney, Parramatta, the Inner West, North Shore, Northern Beaches, Eastern Suburbs, St George & Sutherland Shire and South West Sydney."
+      }
+    }
+  ]
+}
+  </script>
   <!-- Business details for Google (structured data). Update if details change. -->
   <script type="application/ld+json">
   {
@@ -925,6 +1071,7 @@ html { scroll-padding-top: 84px; }               /* anchors land below the stick
         <a href="#gallery">Our Work</a>
         <a href="#about">About</a>
         <a href="#testimonials">Reviews</a>
+        <a href="#faq">FAQ</a>
         <a href="#quote">Contact</a>
       </nav>
 
@@ -1121,7 +1268,7 @@ html { scroll-padding-top: 84px; }               /* anchors land below the stick
     </section>
 
     <!-- ============ TESTIMONIALS ============ -->
-    <section id="testimonials" class="section">
+    <section id="testimonials" class="section section-tint">
       <div class="container">
         <p class="eyebrow eyebrow-accent text-center">What Clients Say</p>
         <h2 class="text-center section-title-loose">Word of mouth is how this business grows.</h2>
@@ -1157,6 +1304,49 @@ html { scroll-padding-top: 84px; }               /* anchors land below the stick
       </div>
     </section>
 
+    <!-- ============ FAQ ============ -->
+    <section id="faq" class="section">
+      <div class="container faq-wrap">
+        <p class="eyebrow eyebrow-accent text-center">Common Questions</p>
+        <h2 class="text-center section-title-loose">Answers before you pick up the phone.</h2>
+        <div class="faq-list">
+          <details class="faq-item">
+            <summary>How much will my job cost?<svg class="chev" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary>
+            <div class="faq-a"><p>Every job is different, so we don't use price lists. After a free on-site visit, you get a fixed-price, itemised written quote, with no vague allowances and no surprises later.</p></div>
+          </details>
+          <details class="faq-item">
+            <summary>Do I need council approval for a deck?<svg class="chev" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary>
+            <div class="faq-a"><p>Often not. In NSW many small decks count as <strong>exempt development</strong>: in most residential zones that generally means no more than 25&nbsp;m², a floor no more than 1&nbsp;m above ground, at least 900&nbsp;mm from the boundary and behind the building line. Bigger or higher decks need a CDC or DA. We check your site and tell you which applies before we quote. <a href="https://www.planningportal.nsw.gov.au/development-and-assessment/planning-approval-pathways/exempt-development/balconies-decks-and-patios" target="_blank" rel="noopener">NSW Planning Portal rules&nbsp;↗</a></p></div>
+          </details>
+          <details class="faq-item">
+            <summary>How much deposit do you ask for?<svg class="chev" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary>
+            <div class="faq-a"><p>Never more than 10% of the contract price, which is the NSW limit. The rest is paid in stages set out in your contract as the work progresses.</p></div>
+          </details>
+          <details class="faq-item">
+            <summary>Will I get a written contract?<svg class="chev" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary>
+            <div class="faq-a"><p>Yes. NSW law requires a written contract for any job over $5,000. Jobs over $20,000 also need home warranty insurance (HBCF) in place before any deposit is taken, and come with a 5-business-day cooling-off period.</p></div>
+          </details>
+          <details class="faq-item">
+            <summary>Are you licensed and insured?<svg class="chev" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary>
+            <div class="faq-a"><p>Yes. Ziverse Constructions works under NSW contractor licence <strong>471023C</strong> (licensee Zhibin Lin) and carries $5 million public and products liability insurance.</p></div>
+          </details>
+          <details class="faq-item">
+            <summary>Is the work guaranteed?<svg class="chev" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary>
+            <div class="faq-a"><p>All residential building work in NSW is covered by statutory warranties: 6 years for major defects and 2 years for other defects. We also walk through the finished job with you at handover.</p></div>
+          </details>
+          <details class="faq-item">
+            <summary>How long will it take?<svg class="chev" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary>
+            <div class="faq-a"><p>It depends on the size of the job and any approvals. Your quote includes a start date and an expected timeframe, and you get regular progress updates and photos along the way.</p></div>
+          </details>
+          <details class="faq-item">
+            <summary>Which areas do you cover?<svg class="chev" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary>
+            <div class="faq-a"><p>All of Greater Sydney and the Blue Mountains, including the Hills District, Western Sydney, Parramatta, the Inner West, North Shore, Northern Beaches, Eastern Suburbs, St George &amp; Sutherland Shire and South West Sydney.</p></div>
+          </details>
+        </div>
+        <p class="faq-more">Something else? <a href="#quote">Ask us directly &#8594;</a></p>
+      </div>
+    </section>
+
     <!-- ============ QUOTE / CONTACT ============ -->
     <section id="quote" class="section section-tint">
       <div class="container quote-row">
@@ -1168,6 +1358,10 @@ html { scroll-padding-top: 84px; }               /* anchors land below the stick
             <li>
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
               <a href="tel:+61450466610" class="mono">0450 466 610</a>
+            </li>
+            <li>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+              <span class="msg-links">Text or WhatsApp: <a href="sms:+61450466610?&amp;body=Hi%20Bing%2C%20I%20found%20Ziverse%20Constructions%20online%20and%20would%20like%20a%20quote%20for%3A%20">SMS</a> · <a href="https://wa.me/61450466610?text=Hi%20Bing%2C%20I%20found%20Ziverse%20Constructions%20online%20and%20would%20like%20a%20quote%20for%3A%20" target="_blank" rel="noopener">WhatsApp</a></span>
             </li>
             <!-- Email: switch to hello@ziverse.com.au once forwarding is set up -->
             <li>
@@ -1319,9 +1513,19 @@ html { scroll-padding-top: 84px; }               /* anchors land below the stick
   <div class="mobile-cta is-hidden" id="mobile-cta" inert>
     <a href="tel:+61450466610" class="mobile-cta-call">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
-      Call Now
+      Call
     </a>
+    <button type="button" class="mobile-cta-msg" aria-expanded="false" aria-controls="msg-sheet">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+      Message
+    </button>
     <a href="#quote" class="mobile-cta-quote">Free Quote</a>
+  </div>
+  <!-- Message options (opened by the "Message" button above). Update the number in both links. -->
+  <div class="msg-sheet" id="msg-sheet" hidden>
+    <p class="msg-sheet-title">Send Bing a message</p>
+    <a class="msg-opt" href="sms:+61450466610?&amp;body=Hi%20Bing%2C%20I%20found%20Ziverse%20Constructions%20online%20and%20would%20like%20a%20quote%20for%3A%20"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M9 7h6M9 11h6M9 15h3"/></svg><span>Text message (SMS)<em>0450 466 610</em></span></a>
+    <a class="msg-opt msg-opt-wa" href="https://wa.me/61450466610?text=Hi%20Bing%2C%20I%20found%20Ziverse%20Constructions%20online%20and%20would%20like%20a%20quote%20for%3A%20" target="_blank" rel="noopener"><svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.7.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3a.5.5 0 0 0 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 2.9 2.9 0 0 0-.9 2.2 5.1 5.1 0 0 0 1.1 2.7 11.6 11.6 0 0 0 4.4 3.9c1.6.7 2.3.8 3.1.6a2.7 2.7 0 0 0 1.8-1.2 2.2 2.2 0 0 0 .1-1.2c0-.1-.2-.2-.4-.3z"/></svg><span>WhatsApp<em>Chat on WhatsApp</em></span></a>
   </div>
 
   <!-- ============ FOOTER ============ -->
@@ -1335,6 +1539,7 @@ html { scroll-padding-top: 84px; }               /* anchors land below the stick
         <a href="#services">Services</a>
         <a href="#gallery">Our Work</a>
         <a href="#about">About</a>
+        <a href="#faq">FAQ</a>
         <a href="#quote">Contact</a>
       </nav>
     </div>
@@ -1342,6 +1547,7 @@ html { scroll-padding-top: 84px; }               /* anchors land below the stick
       <span>&copy; <span id="year"></span> Ziverse Constructions Pty Ltd · ABN 91 642 921 917 · NSW Contractor Licence 471023C (Zhibin Lin).</span>
       <span>Serving Greater Sydney &amp; the Blue Mountains, NSW</span>
     </div>
+    <p class="container footer-privacy">This site uses Google Analytics to count visits (no names or contact details are collected by it). Details you send through our forms are used only to reply to your enquiry.</p>
   </footer>
 
   <script>
@@ -1570,6 +1776,46 @@ html { scroll-padding-top: 84px; }               /* anchors land below the stick
     a.addEventListener('click', openQuote);
   });
   if (location.hash === '#quote' || location.hash === '#quote-form') openQuote();
+
+  /* "Message" button: opens SMS / WhatsApp options above the bottom bar */
+  var msgBtn = document.querySelector('.mobile-cta-msg');
+  var msgSheet = document.getElementById('msg-sheet');
+  if (msgBtn && msgSheet) {
+    var setMsg = function (open) {
+      msgSheet.hidden = !open;
+      msgBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    };
+    msgBtn.addEventListener('click', function (e) { e.stopPropagation(); setMsg(msgSheet.hidden); });
+    document.addEventListener('click', function (e) {
+      if (!msgSheet.hidden && !msgSheet.contains(e.target)) setMsg(false);
+    });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') setMsg(false); });
+    msgSheet.querySelectorAll('a').forEach(function (a) { a.addEventListener('click', function () { setMsg(false); }); });
+    var bar = document.getElementById('mobile-cta');
+    if (bar && 'MutationObserver' in window) {
+      new MutationObserver(function () { if (bar.classList.contains('is-hidden')) setMsg(false); })
+        .observe(bar, { attributes: true, attributeFilter: ['class'] });
+    }
+  }
+
+  /* Visitor statistics: count calls, messages and quote requests (only if Google Analytics is switched on) */
+  var track = function (name, params) {
+    if (typeof window.gtag === 'function' && window.ZIVERSE_GA_ID && window.ZIVERSE_GA_ID.indexOf('XXXX') === -1) {
+      window.gtag('event', name, params || {});
+    }
+  };
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest && e.target.closest('a, button');
+    if (!a) return;
+    var href = a.getAttribute('href') || '';
+    if (href.indexOf('tel:') === 0) track('call_click', { location: a.closest('.mobile-cta') ? 'bottom_bar' : (a.closest('.site-header') ? 'header' : 'page') });
+    else if (href.indexOf('sms:') === 0) track('message_click', { method: 'sms' });
+    else if (href.indexOf('wa.me') !== -1) track('message_click', { method: 'whatsapp' });
+    else if (href.indexOf('mailto:') === 0) track('email_click');
+    else if (a.classList.contains('quote-toggle')) track('quote_form_open');
+  }, true);
+  var qf = document.getElementById('quote-form');
+  if (qf) qf.addEventListener('submit', function () { track('generate_lead', { form: 'quote' }); });
 })();
 
 </script>
