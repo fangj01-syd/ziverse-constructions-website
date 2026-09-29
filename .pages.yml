@@ -1,0 +1,108 @@
+# Pages CMS settings: which parts of the website can be edited at app.pagescms.org.
+media:
+  input: images/uploads
+  output: /images/uploads
+  categories: [image]
+
+content:
+  - name: projects
+    label: Recent Projects (photos)
+    type: file
+    path: _data/projects.yml
+    fields:
+      - name: items
+        label: Project photos
+        type: object
+        list: true
+        fields:
+          - { name: image, label: Photo, type: image, required: true }
+          - { name: caption, label: What the photo shows, type: string, required: true }
+
+  - name: reviews
+    label: Client Reviews
+    type: file
+    path: _data/reviews.yml
+    fields:
+      - name: items
+        label: Reviews (real clients only, with permission)
+        type: object
+        list: true
+        fields:
+          - { name: name, label: Client first name, type: string, required: true }
+          - { name: suburb, label: Suburb, type: string }
+          - { name: stars, label: Stars (1 to 5), type: number, options: { min: 1, max: 5 } }
+          - { name: text, label: Review, type: text, required: true }
+          - { name: sample, label: Sample only (shows a grey sample tag), type: boolean }
+
+  - name: faq
+    label: Common Questions (FAQ)
+    type: file
+    path: _data/faq.yml
+    fields:
+      - name: items
+        label: Questions
+        type: object
+        list: true
+        fields:
+          - { name: question, label: Question, type: string, required: true }
+          - { name: answer, label: Answer, type: rich-text, required: true }
+
+  - name: services
+    label: Services (What We Do)
+    type: file
+    path: _data/services.yml
+    fields:
+      - name: items
+        label: Service cards
+        type: object
+        list: true
+        fields:
+          - name: icon
+            label: Icon
+            type: select
+            options:
+              values:
+                - { value: house, label: House }
+                - { value: extension, label: Tools (renovation) }
+                - { value: kitchen, label: Kitchen / bathroom }
+                - { value: deck, label: Deck / outdoor }
+          - { name: title, label: Title, type: string, required: true }
+          - { name: text, label: Description, type: text, required: true }
+
+  - name: hero
+    label: Homepage Top (headline and photos)
+    type: file
+    path: _data/hero.yml
+    fields:
+      - { name: eyebrow, label: Small line above the headline, type: string }
+      - { name: headline, label: Headline, type: string, required: true }
+      - { name: intro, label: Intro paragraph, type: text }
+      - name: slides
+        label: Rotating photos
+        type: object
+        list: true
+        fields:
+          - { name: image, label: Photo, type: image, required: true }
+
+  - name: about
+    label: About Bing
+    type: file
+    path: _data/about.yml
+    fields:
+      - { name: photo, label: Photo, type: image }
+      - { name: photo_caption, label: What the photo shows, type: string }
+      - { name: heading, label: Heading, type: string }
+      - { name: text, label: Paragraph, type: text }
+
+  - name: business
+    label: Contact & Business Details
+    type: file
+    path: _data/business.yml
+    fields:
+      - { name: phone_display, label: "Phone, as shown (e.g. 0450 466 610)", type: string, required: true }
+      - { name: phone_international, label: "Phone for call/SMS/WhatsApp links: 61 + number without the first 0, no spaces (e.g. 61450466610)", type: string, required: true, pattern: "^61[0-9]{9}$" }
+      - { name: email, label: Email, type: string, required: true }
+      - { name: licence, label: NSW contractor licence number, type: string }
+      - { name: abn, label: ABN, type: string }
+      - { name: insurance, label: Insurance, type: string }
+      - { name: areas, label: Areas we build in, type: string, list: true }

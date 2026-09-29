@@ -1,0 +1,10 @@
+# GitHub Pages builds the site with Jekyll. index.html pulls its words and
+# photos from the files in _data/, which Bing edits in Pages CMS
+# (https://app.pagescms.org). Layout and styling stay in index.html.
+title: Ziverse Constructions
+url: https://www.ziverse.com.au
+exclude:
+  - README.md
+  - "*.before-*.html"
+  - template-src.html
+  - render.py
