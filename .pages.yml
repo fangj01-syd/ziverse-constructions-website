@@ -10,6 +10,9 @@ content:
     type: file
     path: _data/projects.yml
     fields:
+      - { name: eyebrow, label: Small line above the heading, type: string }
+      - { name: heading, label: Section heading, type: string }
+      - { name: note, label: "Note under the heading (clear it once all photos are real Ziverse jobs)", type: text }
       - name: items
         label: Project photos
         type: object
