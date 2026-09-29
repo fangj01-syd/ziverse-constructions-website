@@ -1,3 +1,7 @@
+---
+# Jekyll builds this page from the files in _data/ (edited in Pages CMS).
+---
+{%- assign b = site.data.business -%}
 <!doctype html>
 <html lang="en">
 <head>
@@ -31,7 +35,7 @@
   <meta property="og:image" content="https://www.ziverse.com.au/og-image.jpg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="Ziverse Constructions logo with phone 0450 466 610">
+  <meta property="og:image:alt" content="Ziverse Constructions logo with phone {{ b.phone_display }}">
   <meta property="og:site_name" content="Ziverse Constructions">
   <meta name="twitter:card" content="summary_large_image">
   <!-- Browser tab icon + home-screen icon -->
@@ -987,70 +991,16 @@ html { scroll-padding-top: 84px; }               /* anchors land below the stick
   "@context": "https://schema.org",
   "@type": "FAQPage",
   "mainEntity": [
+{%- for f in site.data.faq.items %}
     {
       "@type": "Question",
-      "name": "How much will my job cost?",
+      "name": {{ f.question | jsonify }},
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Every job is different, so we don't use price lists. After a free on-site visit, you get a fixed-price, itemised written quote, with no vague allowances and no surprises later."
+        "text": {{ f.answer | strip_html | replace: '&nbsp;', ' ' | replace: '&amp;', '&' | replace: '↗', '' | strip | jsonify }}
       }
-    },
-    {
-      "@type": "Question",
-      "name": "Do I need council approval for a deck?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Often not. In NSW many small decks count as exempt development: in most residential zones that generally means no more than 25 m², a floor no more than 1 m above ground, at least 900 mm from the boundary and behind the building line. Bigger or higher decks need a CDC or DA. We check your site and tell you which applies before we quote. NSW Planning Portal rules"
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How much deposit do you ask for?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Never more than 10% of the contract price, which is the NSW limit. The rest is paid in stages set out in your contract as the work progresses."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Will I get a written contract?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Yes. NSW law requires a written contract for any job over $5,000. Jobs over $20,000 also need home warranty insurance (HBCF) in place before any deposit is taken, and come with a 5-business-day cooling-off period."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Are you licensed and insured?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Yes. Ziverse Constructions works under NSW contractor licence 471023C (licensee Zhibin Lin) and carries $5 million public and products liability insurance."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Is the work guaranteed?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "All residential building work in NSW is covered by statutory warranties: 6 years for major defects and 2 years for other defects. We also walk through the finished job with you at handover."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How long will it take?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "It depends on the size of the job and any approvals. Your quote includes a start date and an expected timeframe, and you get regular progress updates and photos along the way."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Which areas do you cover?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "All of Greater Sydney and the Blue Mountains, including the Hills District, Western Sydney, Parramatta, the Inner West, North Shore, Northern Beaches, Eastern Suburbs, St George & Sutherland Shire and South West Sydney."
-      }
-    }
+    }{% unless forloop.last %},{% endunless %}
+{%- endfor %}
   ]
 }
   </script>
@@ -1061,8 +1011,8 @@ html { scroll-padding-top: 84px; }               /* anchors land below the stick
     "@type": "GeneralContractor",
     "name": "Ziverse Constructions",
     "legalName": "Ziverse Constructions Pty Ltd",
-    "telephone": "+61 450 466 610",
-    "email": "ziverseconstructions@gmail.com",
+    "telephone": "+{{ b.phone_international }}",
+    "email": "{{ b.email }}",
     "foundingDate": "2020-07-24",
     "description": "Licensed residential builder for new homes, renovations, extensions, decks and outdoor living across Sydney and the Blue Mountains.",
     "url": "https://www.ziverse.com.au/",
@@ -1097,9 +1047,9 @@ html { scroll-padding-top: 84px; }               /* anchors land below the stick
       </nav>
 
       <div class="header-actions">
-        <a href="tel:+61450466610" class="btn btn-accent btn-sm mono">
+        <a href="tel:+{{ b.phone_international }}" class="btn btn-accent btn-sm mono">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
-          <span class="phone-text">0450 466 610</span>
+          <span class="phone-text">{{ b.phone_display }}</span>
         </a>
         <button type="button" class="header-msg" aria-expanded="false" aria-controls="msg-sheet" aria-label="Send a message (SMS or WhatsApp)">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
@@ -1117,9 +1067,9 @@ html { scroll-padding-top: 84px; }               /* anchors land below the stick
     <section class="hero">
       <div class="container hero-row">
         <div class="hero-copy">
-          <p class="eyebrow eyebrow-accent">Licensed Residential Builder — Sydney &amp; Blue Mountains</p>
-          <h1>Custom builds &amp; renovations, done right the first time.</h1>
-          <p class="lede">From new homes to extensions, decks and renovations — Ziverse Constructions has been building for families across Sydney and the Blue Mountains, with honest quotes and no shortcuts.</p>
+          <p class="eyebrow eyebrow-accent">{{ site.data.hero.eyebrow | escape }}</p>
+          <h1>{{ site.data.hero.headline | escape }}</h1>
+          <p class="lede">{{ site.data.hero.intro | escape }}</p>
           <div class="btn-row">
             <a href="#quote" class="btn btn-accent">Get a Free Quote</a>
             <a href="#gallery" class="btn btn-ghost-invert">View Our Work</a>
@@ -1131,10 +1081,9 @@ html { scroll-padding-top: 84px; }               /* anchors land below the stick
                images/hero-1.jpg, hero-2.jpg, ...). Add or remove <img class="hero-slide">
                elements to change the number of slides — script.js picks up however
                many are present. Slideshow logic: script.js, "Hero slideshow". -->
-          <img class="hero-slide is-active" src="https://images.unsplash.com/photo-1721815693498-cc28507c0ba2?fm=jpg&amp;q=80&amp;w=1800&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0" srcset="https://images.unsplash.com/photo-1721815693498-cc28507c0ba2?fm=jpg&amp;q=80&amp;w=800&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0 800w, https://images.unsplash.com/photo-1721815693498-cc28507c0ba2?fm=jpg&amp;q=80&amp;w=1200&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0 1200w, https://images.unsplash.com/photo-1721815693498-cc28507c0ba2?fm=jpg&amp;q=80&amp;w=1800&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0 1800w" sizes="(max-width: 960px) 100vw, 55vw" alt="" loading="eager">
-          <img class="hero-slide" src="https://images.unsplash.com/photo-1633354747567-e0682586f082?fm=jpg&amp;q=80&amp;w=1800&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0" srcset="https://images.unsplash.com/photo-1633354747567-e0682586f082?fm=jpg&amp;q=80&amp;w=800&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0 800w, https://images.unsplash.com/photo-1633354747567-e0682586f082?fm=jpg&amp;q=80&amp;w=1200&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0 1200w, https://images.unsplash.com/photo-1633354747567-e0682586f082?fm=jpg&amp;q=80&amp;w=1800&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0 1800w" sizes="(max-width: 960px) 100vw, 55vw" alt="" loading="lazy">
-          <img class="hero-slide" src="https://images.unsplash.com/photo-1580587771525-78b9dba3b914?fm=jpg&amp;q=80&amp;w=1800&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0" srcset="https://images.unsplash.com/photo-1580587771525-78b9dba3b914?fm=jpg&amp;q=80&amp;w=800&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0 800w, https://images.unsplash.com/photo-1580587771525-78b9dba3b914?fm=jpg&amp;q=80&amp;w=1200&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0 1200w, https://images.unsplash.com/photo-1580587771525-78b9dba3b914?fm=jpg&amp;q=80&amp;w=1800&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0 1800w" sizes="(max-width: 960px) 100vw, 55vw" alt="" loading="lazy">
-          <img class="hero-slide" src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?fm=jpg&amp;q=80&amp;w=1800&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0" srcset="https://images.unsplash.com/photo-1613490493576-7fde63acd811?fm=jpg&amp;q=80&amp;w=800&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0 800w, https://images.unsplash.com/photo-1613490493576-7fde63acd811?fm=jpg&amp;q=80&amp;w=1200&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0 1200w, https://images.unsplash.com/photo-1613490493576-7fde63acd811?fm=jpg&amp;q=80&amp;w=1800&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0 1800w" sizes="(max-width: 960px) 100vw, 55vw" alt="" loading="lazy">
+          {%- for sl in site.data.hero.slides %}
+          <img class="hero-slide{% if forloop.first %} is-active{% endif %}" src="{{ sl.image | escape }}"{% if sl.image contains 'images.unsplash.com' %} srcset="{{ sl.image | replace: 'w=1800', 'w=800' | escape }} 800w, {{ sl.image | replace: 'w=1800', 'w=1200' | escape }} 1200w, {{ sl.image | escape }} 1800w" sizes="(max-width: 960px) 100vw, 55vw"{% endif %} alt="" loading="{% if forloop.first %}eager{% else %}lazy{% endif %}">
+          {%- endfor %}
         </div>
       </div>
     </section>
@@ -1169,26 +1118,13 @@ html { scroll-padding-top: 84px; }               /* anchors land below the stick
           <h2>Services built around how homeowners actually renovate.</h2>
         </div>
         <div class="grid grid-4 swipe-track" aria-label="Our services">
+          {%- for sv in site.data.services.items %}
           <article class="card">
-            <svg class="card-icon" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 21h18"></path><path d="M5 21V9l7-5 7 5v12"></path><path d="M9 9h.01"></path><path d="M9 13h.01"></path><path d="M15 9h.01"></path><path d="M15 13h.01"></path></svg>
-            <h3>New Homes</h3>
-            <p>Knockdown-rebuilds and custom builds from concept to keys, managed start to finish.</p>
+            {% case sv.icon %}{% when "extension" %}<svg class="card-icon" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m14.7 6.3-1.4-1.4a2 2 0 0 0-2.83 0L3 12.36V19h6.64l7.47-7.47a2 2 0 0 0 0-2.83z"></path><path d="m17.5 3.5 3 3"></path><path d="M9.5 17.5 3 11"></path></svg>{% when "kitchen" %}<svg class="card-icon" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="10" width="18" height="10" rx="1"></rect><path d="M7 10V6a5 5 0 0 1 10 0v4"></path></svg>{% when "deck" %}<svg class="card-icon" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 20h18"></path><path d="M5 20V10l7-4 7 4v10"></path><path d="M9 20v-5h6v5"></path></svg>{% else %}<svg class="card-icon" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 21h18"></path><path d="M5 21V9l7-5 7 5v12"></path><path d="M9 9h.01"></path><path d="M9 13h.01"></path><path d="M15 9h.01"></path><path d="M15 13h.01"></path></svg>{% endcase %}
+            <h3>{{ sv.title | escape }}</h3>
+            <p>{{ sv.text | escape }}</p>
           </article>
-          <article class="card">
-            <svg class="card-icon" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m14.7 6.3-1.4-1.4a2 2 0 0 0-2.83 0L3 12.36V19h6.64l7.47-7.47a2 2 0 0 0 0-2.83z"></path><path d="m17.5 3.5 3 3"></path><path d="M9.5 17.5 3 11"></path></svg>
-            <h3>Renovations &amp; Extensions</h3>
-            <p>Second storeys, extra bedrooms and full home renovations that respect your budget.</p>
-          </article>
-          <article class="card">
-            <svg class="card-icon" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="10" width="18" height="10" rx="1"></rect><path d="M7 10V6a5 5 0 0 1 10 0v4"></path></svg>
-            <h3>Bathrooms &amp; Kitchens</h3>
-            <p>Full strip-outs and rebuilds, waterproofing and fit-out handled by one trusted crew.</p>
-          </article>
-          <article class="card">
-            <svg class="card-icon" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 20h18"></path><path d="M5 20V10l7-4 7 4v10"></path><path d="M9 20v-5h6v5"></path></svg>
-            <h3>Decks &amp; Outdoor Living</h3>
-            <p>Decks, pergolas and alfresco areas built to handle the Australian outdoors.</p>
-          </article>
+          {%- endfor %}
         </div>
         <div class="t-dots" aria-label="Choose a service"></div>
         <p class="t-hint">Swipe to see more services &#8594;</p>
@@ -1206,24 +1142,11 @@ html { scroll-padding-top: 84px; }               /* anchors land below the stick
           <a href="#quote" class="text-link">Start your project &#8594;</a>
         </div>
         <div class="grid grid-3 gallery-track" aria-label="Recent projects">
+          {%- for p in site.data.projects.items %}
           <div class="img-placeholder ratio-4-3 plate has-photo">
-            <img src="https://images.unsplash.com/photo-1758448756207-54505680d130?fm=jpg&amp;q=80&amp;w=1200&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0" srcset="https://images.unsplash.com/photo-1758448756207-54505680d130?fm=jpg&amp;q=80&amp;w=600&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0 600w, https://images.unsplash.com/photo-1758448756207-54505680d130?fm=jpg&amp;q=80&amp;w=1200&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0 1200w" sizes="(max-width: 720px) 100vw, 50vw" alt="Full home extension, modern concrete and glass exterior" loading="lazy">
+            <img src="{{ p.image | escape }}"{% if p.image contains 'images.unsplash.com' %} srcset="{{ p.image | replace: 'w=1200', 'w=600' | escape }} 600w, {{ p.image | escape }} 1200w" sizes="(max-width: 720px) 100vw, 50vw"{% endif %} alt="{{ p.caption | escape }}" loading="lazy">
           </div>
-          <div class="img-placeholder ratio-4-3 plate has-photo">
-            <img src="https://images.unsplash.com/photo-1591474200742-8e512e6f98f8?fm=jpg&amp;q=80&amp;w=1200&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0" srcset="https://images.unsplash.com/photo-1591474200742-8e512e6f98f8?fm=jpg&amp;q=80&amp;w=600&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0 600w, https://images.unsplash.com/photo-1591474200742-8e512e6f98f8?fm=jpg&amp;q=80&amp;w=1200&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0 1200w" sizes="(max-width: 720px) 100vw, 50vw" alt="Modern two-storey home with large glazing and stone-clad walls" loading="lazy">
-          </div>
-          <div class="img-placeholder ratio-4-3 plate has-photo">
-            <img src="https://images.unsplash.com/photo-1778936317494-246b9262bbaf?fm=jpg&amp;q=80&amp;w=1200&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0" srcset="https://images.unsplash.com/photo-1778936317494-246b9262bbaf?fm=jpg&amp;q=80&amp;w=600&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0 600w, https://images.unsplash.com/photo-1778936317494-246b9262bbaf?fm=jpg&amp;q=80&amp;w=1200&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0 1200w" sizes="(max-width: 720px) 100vw, 50vw" alt="Kitchen renovation with granite benchtops" loading="lazy">
-          </div>
-          <div class="img-placeholder ratio-4-3 plate has-photo">
-            <img src="https://images.unsplash.com/photo-1575517111478-7f6afd0973db?fm=jpg&amp;q=80&amp;w=1200&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0" srcset="https://images.unsplash.com/photo-1575517111478-7f6afd0973db?fm=jpg&amp;q=80&amp;w=600&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0 600w, https://images.unsplash.com/photo-1575517111478-7f6afd0973db?fm=jpg&amp;q=80&amp;w=1200&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0 1200w" sizes="(max-width: 720px) 100vw, 50vw" alt="Timber deck and outdoor living area opening onto the home at dusk" loading="lazy">
-          </div>
-          <div class="img-placeholder ratio-4-3 plate has-photo">
-            <img src="https://images.unsplash.com/photo-1755816764831-2803235f0099?fm=jpg&amp;q=80&amp;w=1200&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0" srcset="https://images.unsplash.com/photo-1755816764831-2803235f0099?fm=jpg&amp;q=80&amp;w=600&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0 600w, https://images.unsplash.com/photo-1755816764831-2803235f0099?fm=jpg&amp;q=80&amp;w=1200&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0 1200w" sizes="(max-width: 720px) 100vw, 50vw" alt="Timber-look pergola over an outdoor entertaining area" loading="lazy">
-          </div>
-          <div class="img-placeholder ratio-4-3 plate has-photo">
-            <img src="https://images.unsplash.com/photo-1771929662486-f793e08f0f16?fm=jpg&amp;q=80&amp;w=1200&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0" srcset="https://images.unsplash.com/photo-1771929662486-f793e08f0f16?fm=jpg&amp;q=80&amp;w=600&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0 600w, https://images.unsplash.com/photo-1771929662486-f793e08f0f16?fm=jpg&amp;q=80&amp;w=1200&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0 1200w" sizes="(max-width: 720px) 100vw, 50vw" alt="Bathroom rebuild with marble-look tiling and frameless glass shower" loading="lazy">
-          </div>
+          {%- endfor %}
         </div>
         <div class="t-dots" aria-label="Choose a project"></div>
         <p class="t-hint">Swipe to see more projects &#8594;</p>
@@ -1266,25 +1189,26 @@ html { scroll-padding-top: 84px; }               /* anchors land below the stick
     <section id="about" class="section section-dark">
       <div class="container about-row">
         <div class="img-placeholder ratio-3-4 about-photo plate plate-dark has-photo">
-          <img src="https://images.unsplash.com/photo-1742112125635-6f8201c6ee3f?fm=jpg&amp;q=80&amp;w=1200&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0" srcset="https://images.unsplash.com/photo-1742112125635-6f8201c6ee3f?fm=jpg&amp;q=80&amp;w=600&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0 600w, https://images.unsplash.com/photo-1742112125635-6f8201c6ee3f?fm=jpg&amp;q=80&amp;w=1200&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.1.0 1200w" sizes="(max-width: 960px) 100vw, 380px" alt="Two tradespeople in hard hats shaking hands on site, placeholder photo" loading="lazy">
+          {%- assign ab = site.data.about %}
+          <img src="{{ ab.photo | escape }}"{% if ab.photo contains 'images.unsplash.com' %} srcset="{{ ab.photo | replace: 'w=1200', 'w=600' | escape }} 600w, {{ ab.photo | escape }} 1200w" sizes="(max-width: 960px) 100vw, 380px"{% endif %} alt="{{ ab.photo_caption | escape }}" loading="lazy">
         </div>
         <div class="about-copy">
           <p class="eyebrow eyebrow-accent">About Ziverse Constructions</p>
-          <h2>Owner-operated, so the person quoting the job is the person building it.</h2>
-          <p>Ziverse Constructions is run by Bing (Zhibin) Lin, a NSW-licensed contractor in carpentry and kitchen, bathroom &amp; laundry renovation. Since 2020 Bing has personally quoted, managed and worked on every job, so you deal with the same person from the first site visit to handover.</p>
+          <h2>{{ ab.heading | escape }}</h2>
+          <p>{{ ab.text | escape }}</p>
           <dl class="about-facts">
             <div>
               <dt>NSW Contractor Licence</dt>
-              <dd class="mono value-accent">471023C</dd>
+              <dd class="mono value-accent">{{ b.licence }}</dd>
               <dd class="licence-note">Licensee: Zhibin Lin · Carpentry; Kitchen, Bathroom &amp; Laundry Renovation</dd>
             </div>
             <div>
               <dt>ABN</dt>
-              <dd class="mono value-accent">91 642 921 917</dd>
+              <dd class="mono value-accent">{{ b.abn }}</dd>
             </div>
             <div>
               <dt>Insurance</dt>
-              <dd>Public &amp; products liability, $5 million</dd>
+              <dd>{{ b.insurance | escape }}</dd>
             </div>
           </dl>
         </div>
@@ -1297,26 +1221,19 @@ html { scroll-padding-top: 84px; }               /* anchors land below the stick
         <p class="eyebrow eyebrow-accent text-center">What Clients Say</p>
         <h2 class="text-center section-title-loose">Word of mouth is how this business grows.</h2>
         <div class="grid grid-3 testimonial-track" aria-label="Client reviews">
-          <figure class="card testimonial">
-            <div class="stars" aria-hidden="true">★★★★★</div>
-            <blockquote>Bing built our new deck and we couldn't be happier. He talked us through the design and materials up front, kept us in the loop the whole way, and he and his team left everything neat and tidy at the end of each day. The finish is excellent and it's now our favourite spot at home. Thanks Bing and team!</blockquote>
-            <figcaption>Jacky, Castle Hill</figcaption>
-          </figure>
-          <!-- Cards marked is-sample show layout only: replace each with a real
-               client's review (with permission) and remove the sample-tag span.
-               Publishing invented reviews is misleading under Australian Consumer Law. -->
-          <figure class="card testimonial is-sample">
+          <!-- Reviews come from _data/reviews.yml. Only publish real reviews, with permission:
+               invented reviews are misleading under Australian Consumer Law. -->
+          {%- for r in site.data.reviews.items %}
+          <figure class="card testimonial{% if r.sample %} is-sample{% endif %}">
+            {%- if r.sample %}
             <span class="sample-tag">Sample layout — replace with a real client review</span>
-            <div class="stars" aria-hidden="true">★★★★★</div>
-            <blockquote>We got three quotes and Ziverse's was the only one that was fully itemised, with no vague allowances. Bing explained exactly what we were paying for and there were no surprises at the end. Our new kitchen and bathroom look fantastic.</blockquote>
-            <figcaption>[Client Name], [Suburb]</figcaption>
+            {%- endif %}
+            {%- assign n = r.stars | default: 5 | plus: 0 %}
+            <div class="stars" aria-hidden="true">{% for i in (1..n) %}★{% endfor %}</div>
+            <blockquote>{{ r.text | escape }}</blockquote>
+            <figcaption>{{ r.name | escape }}{% if r.suburb and r.suburb != "" %}, {{ r.suburb | escape }}{% endif %}</figcaption>
           </figure>
-          <figure class="card testimonial is-sample">
-            <span class="sample-tag">Sample layout — replace with a real client review</span>
-            <div class="stars" aria-hidden="true">★★★★★</div>
-            <blockquote>Bing and his team added a second storey to our home while we kept living downstairs. They turned up when they said they would, kept us posted every day and made a big project feel easy. The extra space has changed how our family lives.</blockquote>
-            <figcaption>[Client Name], [Suburb]</figcaption>
-          </figure>
+          {%- endfor %}
         </div>
         <div class="t-dots" aria-label="Choose a review"></div>
         <p class="t-hint">Swipe to see more reviews &#8594;</p>
@@ -1334,38 +1251,12 @@ html { scroll-padding-top: 84px; }               /* anchors land below the stick
         <p class="eyebrow eyebrow-accent text-center">Common Questions</p>
         <h2 class="text-center section-title-loose">Answers before you pick up the phone.</h2>
         <div class="faq-list">
+          {%- for f in site.data.faq.items %}
           <details class="faq-item">
-            <summary>How much will my job cost?<svg class="chev" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary>
-            <div class="faq-a"><p>Every job is different, so we don't use price lists. After a free on-site visit, you get a fixed-price, itemised written quote, with no vague allowances and no surprises later.</p></div>
+            <summary>{{ f.question | escape }}<svg class="chev" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary>
+            <div class="faq-a">{{ f.answer }}</div>
           </details>
-          <details class="faq-item">
-            <summary>Do I need council approval for a deck?<svg class="chev" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary>
-            <div class="faq-a"><p>Often not. In NSW many small decks count as <strong>exempt development</strong>: in most residential zones that generally means no more than 25&nbsp;m², a floor no more than 1&nbsp;m above ground, at least 900&nbsp;mm from the boundary and behind the building line. Bigger or higher decks need a CDC or DA. We check your site and tell you which applies before we quote. <a href="https://www.planningportal.nsw.gov.au/development-and-assessment/planning-approval-pathways/exempt-development/balconies-decks-and-patios" target="_blank" rel="noopener">NSW Planning Portal rules&nbsp;↗</a></p></div>
-          </details>
-          <details class="faq-item">
-            <summary>How much deposit do you ask for?<svg class="chev" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary>
-            <div class="faq-a"><p>Never more than 10% of the contract price, which is the NSW limit. The rest is paid in stages set out in your contract as the work progresses.</p></div>
-          </details>
-          <details class="faq-item">
-            <summary>Will I get a written contract?<svg class="chev" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary>
-            <div class="faq-a"><p>Yes. NSW law requires a written contract for any job over $5,000. Jobs over $20,000 also need home warranty insurance (HBCF) in place before any deposit is taken, and come with a 5-business-day cooling-off period.</p></div>
-          </details>
-          <details class="faq-item">
-            <summary>Are you licensed and insured?<svg class="chev" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary>
-            <div class="faq-a"><p>Yes. Ziverse Constructions works under NSW contractor licence <strong>471023C</strong> (licensee Zhibin Lin) and carries $5 million public and products liability insurance.</p></div>
-          </details>
-          <details class="faq-item">
-            <summary>Is the work guaranteed?<svg class="chev" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary>
-            <div class="faq-a"><p>All residential building work in NSW is covered by statutory warranties: 6 years for major defects and 2 years for other defects. We also walk through the finished job with you at handover.</p></div>
-          </details>
-          <details class="faq-item">
-            <summary>How long will it take?<svg class="chev" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary>
-            <div class="faq-a"><p>It depends on the size of the job and any approvals. Your quote includes a start date and an expected timeframe, and you get regular progress updates and photos along the way.</p></div>
-          </details>
-          <details class="faq-item">
-            <summary>Which areas do you cover?<svg class="chev" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary>
-            <div class="faq-a"><p>All of Greater Sydney and the Blue Mountains, including the Hills District, Western Sydney, Parramatta, the Inner West, North Shore, Northern Beaches, Eastern Suburbs, St George &amp; Sutherland Shire and South West Sydney.</p></div>
-          </details>
+          {%- endfor %}
         </div>
         <p class="faq-more">Something else? <a href="#quote">Ask us directly &#8594;</a></p>
       </div>
@@ -1381,16 +1272,16 @@ html { scroll-padding-top: 84px; }               /* anchors land below the stick
           <ul class="contact-list">
             <li>
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
-              <a href="tel:+61450466610" class="mono">0450 466 610</a>
+              <a href="tel:+{{ b.phone_international }}" class="mono">{{ b.phone_display }}</a>
             </li>
             <li>
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
-              <span class="msg-links">Text or WhatsApp: <a href="sms:+61450466610?&amp;body=Hi%20Bing%2C%20I%20found%20Ziverse%20Constructions%20online%20and%20would%20like%20a%20quote%20for%3A%20">SMS</a> · <a href="https://wa.me/61450466610?text=Hi%20Bing%2C%20I%20found%20Ziverse%20Constructions%20online%20and%20would%20like%20a%20quote%20for%3A%20" target="_blank" rel="noopener">WhatsApp</a></span>
+              <span class="msg-links">Text or WhatsApp: <a href="sms:+{{ b.phone_international }}?&amp;body=Hi%20Bing%2C%20I%20found%20Ziverse%20Constructions%20online%20and%20would%20like%20a%20quote%20for%3A%20">SMS</a> · <a href="https://wa.me/{{ b.phone_international }}?text=Hi%20Bing%2C%20I%20found%20Ziverse%20Constructions%20online%20and%20would%20like%20a%20quote%20for%3A%20" target="_blank" rel="noopener">WhatsApp</a></span>
             </li>
             <!-- Email: switch to hello@ziverse.com.au once forwarding is set up -->
             <li>
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16v16H4z"></path><path d="m22 6-10 7L2 6"></path></svg>
-              <a class="email-link" href="mailto:ziverseconstructions@gmail.com">ziverseconstructions@gmail.com</a>
+              <a class="email-link" href="mailto:{{ b.email }}">{{ b.email }}</a>
             </li>
             <li>
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
@@ -1399,18 +1290,11 @@ html { scroll-padding-top: 84px; }               /* anchors land below the stick
           </ul>
           <div class="area-block fold" data-fold>
             <p class="area-title">Areas we build in</p>
-            <button type="button" class="fold-toggle area-toggle" aria-expanded="false" aria-controls="area-list"><span>Areas we build in <em>10 areas</em></span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
+            <button type="button" class="fold-toggle area-toggle" aria-expanded="false" aria-controls="area-list"><span>Areas we build in <em>{{ b.areas | size }} areas</em></span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
             <ul class="area-list fold-body" id="area-list">
-              <li>Hills District</li>
-              <li>Western Sydney</li>
-              <li>Parramatta</li>
-              <li>Inner West</li>
-              <li>North Shore</li>
-              <li>Northern Beaches</li>
-              <li>Eastern Suburbs</li>
-              <li>St George &amp; Sutherland Shire</li>
-              <li>South West Sydney</li>
-              <li>Blue Mountains</li>
+              {%- for a in b.areas %}
+              <li>{{ a | escape }}</li>
+              {%- endfor %}
             </ul>
           </div>
         </div>
@@ -1535,7 +1419,7 @@ html { scroll-padding-top: 84px; }               /* anchors land below the stick
        the footer is on screen so it never covers a Submit button
        (script.js, "Mobile quick-action bar"). Update the tel: number. -->
   <div class="mobile-cta is-hidden" id="mobile-cta" inert>
-    <a href="tel:+61450466610" class="mobile-cta-call">
+    <a href="tel:+{{ b.phone_international }}" class="mobile-cta-call">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
       Call
     </a>
@@ -1548,8 +1432,8 @@ html { scroll-padding-top: 84px; }               /* anchors land below the stick
   <!-- Message options (opened by the "Message" button above). Update the number in both links. -->
   <div class="msg-sheet" id="msg-sheet" hidden>
     <p class="msg-sheet-title">Send Bing a message</p>
-    <a class="msg-opt" href="sms:+61450466610?&amp;body=Hi%20Bing%2C%20I%20found%20Ziverse%20Constructions%20online%20and%20would%20like%20a%20quote%20for%3A%20"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M9 7h6M9 11h6M9 15h3"/></svg><span>Text message (SMS)<em>0450 466 610</em></span></a>
-    <a class="msg-opt msg-opt-wa" href="https://wa.me/61450466610?text=Hi%20Bing%2C%20I%20found%20Ziverse%20Constructions%20online%20and%20would%20like%20a%20quote%20for%3A%20" target="_blank" rel="noopener"><svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.7.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3a.5.5 0 0 0 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 2.9 2.9 0 0 0-.9 2.2 5.1 5.1 0 0 0 1.1 2.7 11.6 11.6 0 0 0 4.4 3.9c1.6.7 2.3.8 3.1.6a2.7 2.7 0 0 0 1.8-1.2 2.2 2.2 0 0 0 .1-1.2c0-.1-.2-.2-.4-.3z"/></svg><span>WhatsApp<em>Chat on WhatsApp</em></span></a>
+    <a class="msg-opt" href="sms:+{{ b.phone_international }}?&amp;body=Hi%20Bing%2C%20I%20found%20Ziverse%20Constructions%20online%20and%20would%20like%20a%20quote%20for%3A%20"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M9 7h6M9 11h6M9 15h3"/></svg><span>Text message (SMS)<em>{{ b.phone_display }}</em></span></a>
+    <a class="msg-opt msg-opt-wa" href="https://wa.me/{{ b.phone_international }}?text=Hi%20Bing%2C%20I%20found%20Ziverse%20Constructions%20online%20and%20would%20like%20a%20quote%20for%3A%20" target="_blank" rel="noopener"><svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.7.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3a.5.5 0 0 0 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 2.9 2.9 0 0 0-.9 2.2 5.1 5.1 0 0 0 1.1 2.7 11.6 11.6 0 0 0 4.4 3.9c1.6.7 2.3.8 3.1.6a2.7 2.7 0 0 0 1.8-1.2 2.2 2.2 0 0 0 .1-1.2c0-.1-.2-.2-.4-.3z"/></svg><span>WhatsApp<em>Chat on WhatsApp</em></span></a>
   </div>
 
   <!-- ============ FOOTER ============ -->
@@ -1568,7 +1452,7 @@ html { scroll-padding-top: 84px; }               /* anchors land below the stick
       </nav>
     </div>
     <div class="container footer-bottom mono">
-      <span>&copy; <span id="year"></span> Ziverse Constructions Pty Ltd · ABN 91 642 921 917 · NSW Contractor Licence 471023C (Zhibin Lin).</span>
+      <span>&copy; <span id="year"></span> Ziverse Constructions Pty Ltd · ABN {{ b.abn }} · NSW Contractor Licence {{ b.licence }} (Zhibin Lin).</span>
       <span>Serving Greater Sydney &amp; the Blue Mountains, NSW</span>
     </div>
     <p class="container footer-privacy">This site uses Google Analytics to count visits (no names or contact details are collected by it). Details you send through our forms are used only to reply to your enquiry.</p>
