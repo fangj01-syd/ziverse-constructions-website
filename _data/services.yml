@@ -1,0 +1,14 @@
+# "What We Do" cards.
+items:
+- icon: house
+  title: New Homes
+  text: Knockdown-rebuilds and custom builds from concept to keys, managed start to finish.
+- icon: extension
+  title: Renovations & Extensions
+  text: Second storeys, extra bedrooms and full home renovations that respect your budget.
+- icon: kitchen
+  title: Bathrooms & Kitchens
+  text: Full strip-outs and rebuilds, waterproofing and fit-out handled by one trusted crew.
+- icon: deck
+  title: Decks & Outdoor Living
+  text: Decks, pergolas and alfresco areas built to handle the Australian outdoors.
