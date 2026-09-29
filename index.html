@@ -958,6 +958,27 @@ html { scroll-padding-top: 84px; }               /* anchors land below the stick
 /* Footer privacy line */
 .footer-privacy { font-size: 12px; line-height: 1.5; color: var(--text-invert-muted); padding-block: 0 20px; max-width: 900px; }
 
+/* --- Header "Message" icon (phones & tablets) --- */
+.header-msg { display: none; }
+@media (max-width: 960px) {
+  .header-actions { gap: 10px; }
+  .header-msg {
+    display: flex; align-items: center; justify-content: center;
+    width: 44px; height: 44px; border: 1px solid var(--line); border-radius: 4px;
+    background: transparent; color: var(--text); cursor: pointer;
+  }
+  .header-msg[aria-expanded="true"] { background: var(--text); color: var(--bg); border-color: var(--text); }
+  .msg-sheet.at-top { bottom: auto; }
+}
+@media (max-width: 400px) { .header-actions { gap: 8px; } }
+
+@media (max-width: 400px) {
+  .header-row { gap: 10px; }
+  .header-actions { gap: 6px; }
+  .header-actions .btn { padding-inline: 13px; }
+  .header-msg, .nav-toggle { width: 42px; height: 42px; }
+}
+
 </style>
 
   <!-- FAQ for Google (keep in step with the FAQ section) -->
@@ -1080,6 +1101,9 @@ html { scroll-padding-top: 84px; }               /* anchors land below the stick
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
           <span class="phone-text">0450 466 610</span>
         </a>
+        <button type="button" class="header-msg" aria-expanded="false" aria-controls="msg-sheet" aria-label="Send a message (SMS or WhatsApp)">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+        </button>
         <button class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="main-nav" aria-label="Open menu">
           <span></span><span></span><span></span>
         </button>
@@ -1778,14 +1802,28 @@ html { scroll-padding-top: 84px; }               /* anchors land below the stick
   if (location.hash === '#quote' || location.hash === '#quote-form') openQuote();
 
   /* "Message" button: opens SMS / WhatsApp options above the bottom bar */
-  var msgBtn = document.querySelector('.mobile-cta-msg');
+  var msgBtns = Array.prototype.slice.call(document.querySelectorAll('.mobile-cta-msg, .header-msg'));
   var msgSheet = document.getElementById('msg-sheet');
-  if (msgBtn && msgSheet) {
-    var setMsg = function (open) {
+  if (msgBtns.length && msgSheet) {
+    var setMsg = function (open, fromBtn) {
       msgSheet.hidden = !open;
-      msgBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      if (open && fromBtn && fromBtn.classList.contains('header-msg')) {
+        var hdr = document.querySelector('.site-header');
+        msgSheet.classList.add('at-top');
+        msgSheet.style.top = ((hdr ? hdr.getBoundingClientRect().bottom : 64) + 8) + 'px';
+      } else {
+        msgSheet.classList.remove('at-top');
+        msgSheet.style.top = '';
+      }
+      msgBtns.forEach(function (b) { b.setAttribute('aria-expanded', open && b === fromBtn ? 'true' : 'false'); });
     };
-    msgBtn.addEventListener('click', function (e) { e.stopPropagation(); setMsg(msgSheet.hidden); });
+    msgBtns.forEach(function (b) {
+      b.addEventListener('click', function (e) {
+        e.stopPropagation();
+        var isOpenHere = !msgSheet.hidden && b.getAttribute('aria-expanded') === 'true';
+        setMsg(!isOpenHere, b);
+      });
+    });
     document.addEventListener('click', function (e) {
       if (!msgSheet.hidden && !msgSheet.contains(e.target)) setMsg(false);
     });
@@ -1793,8 +1831,9 @@ html { scroll-padding-top: 84px; }               /* anchors land below the stick
     msgSheet.querySelectorAll('a').forEach(function (a) { a.addEventListener('click', function () { setMsg(false); }); });
     var bar = document.getElementById('mobile-cta');
     if (bar && 'MutationObserver' in window) {
-      new MutationObserver(function () { if (bar.classList.contains('is-hidden')) setMsg(false); })
-        .observe(bar, { attributes: true, attributeFilter: ['class'] });
+      new MutationObserver(function () {
+        if (bar.classList.contains('is-hidden') && !msgSheet.classList.contains('at-top')) setMsg(false);
+      }).observe(bar, { attributes: true, attributeFilter: ['class'] });
     }
   }
 
