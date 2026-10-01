@@ -873,7 +873,8 @@ html { scroll-padding-top: 84px; }               /* anchors land below the stick
 @media (max-width: 400px) { .swipe-sm { --t-gutter: 16px; } }
 
 /* About photo: keep both people in frame when cropped to portrait */
-.about-photo.has-photo img { object-position: 44% 50%; }
+.about-photo.has-photo img { object-position: 50% 50%; }
+@media (max-width: 960px) { .about-photo.has-photo img { object-position: 50% 66%; } }
 
 /* --- Get in Touch: fold-away areas + quote form on phones --- */
 .fold-toggle { display: none; }
